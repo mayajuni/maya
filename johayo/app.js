@@ -14,18 +14,12 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.cookieSession());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('ejs', engine);
  
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
  
-app.get('*', function(req , res, next){
+app.get('/', function(req , res, next){
 	controller.findController(req, res, next);
 });
  

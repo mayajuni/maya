@@ -6,15 +6,44 @@
 	 <meta name="Description" content="<%=title%>" />
 	 <meta name="Keywords" content="<%=title%>" />
 	 <meta name="Author" content="권동준" />
-	 <link rel="stylesheet" href="../../css/master.css" />
+	 <link rel="stylesheet" href="/css/layout.css" />
+	 <script src="/js/jquery-1.9.1.min.js"></script>
 	 <!--[if lt IE 9]>
-		<script src="../../js/html5.js"></script>
+		<script src="/js/html5.js"></script>
 	 <![endif]-->
 </head> 
 <body>
 	<div class="wrapper">
+		<!-- 바로가기 시작 -->
+		<span class="accessibility"><a href="#container" class="skip">본문바로가기(skip to content)</a></span>
+		<!-- 바로가기 끝 -->
+		<!-- 해더 시작 -->
+		<header class="header fix">
+			<h1 class="desc">about / admin</h1>
+		</header>
+		<!-- 해더 끝 -->
 		
+		<aside class="left_wrap fix">
+			<article class="pro">
+				저는 권동준 입니다.
+			</article>
+			<nav>
+				<ul class="left_menu">
+					<li class="left_menu_on">
+					 	프로필
+					</li>
+					<li>
+					 	메뉴2
+					</li>
+					<li>
+					 	메뉴3
+					</li>
+				</ul>
+			</nav>
+		</aside>		
+		<section id="container" class="content">
+			<%-body%>
+		</section>
 	</div>
-<%-body %>
 </body>
 </html>

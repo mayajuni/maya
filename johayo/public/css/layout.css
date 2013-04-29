@@ -1,5 +1,10 @@
 @charset "UTF-8";
 @import url("master.css");
+@font-face{
+	font-family: han;
+	src:url(../font/han.eot);
+	src:local(※), url(../font/han.woff) format('woff')
+}
 
 /* wrapper */
 .wrapper {width:800px; position:relative; margin:0 auto -67px auto; min-width:800px; min-height:100%; height:auto !important; height:100%;}
@@ -13,13 +18,17 @@ a.skip:active{width:165px; height:auto;}
 
 /* header */
 .header {width:100%; height:40px; position:relative; padding-top:35px; border-bottom: 1px solid #A6A6A6;}
-.header .desc {position:absolute; top:55px; right:3px;}
+.header .desc {position:absolute; top:55px; right:3px; font-family:han;}
 
 /* container */
 .container {width:100%; margin-top:20px; padding-bottom:143px;}
 
 /* left_wrap */
-.left_wrap {float:left; width:140px; height:100px; background-color: red;}
+.left_wrap {float:left; width:140px;}
+.left_wrap .pro {margin-top:15px; text-align: center;}
+.left_wrap .left_menu {margin-top:10px; background: url("../images/left_menu.jpg"); }
+.left_wrap .left_menu_on {background: url("../images/left_menu_on.jpg") no-repeat 0 0; color:#FF0000;}
+.left_wrap li {text-align: right; padding-right: 38px; font-size: 20px; font-family:han;}
 
 /* content */
-.content {float:right; width:660px; height:100px; background-color: orange}
+.content {float:right; width:660px; background-color: orange}
