@@ -25,11 +25,11 @@ app.all('/', function(req , res, next){
 	controller.findController(req, res, next);
 });
 
-app.all('/', function(req , res, next){
+app.all("/:var1",function(req,res,next){
 	controller.findController(req, res, next);
 });
 
-app.all('/', function(req , res, next){
+app.all("/:var1/:var2",function(req,res,next){
 	controller.findController(req, res, next);
 });
  
