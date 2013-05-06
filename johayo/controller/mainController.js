@@ -13,12 +13,12 @@ var renderSeed = function(title){
 /* main */
 exports.controller = function(req, res, next){
 	db.tests.find({}, function (error, data) {
-		if(err){
-			console.log(err);
-			res.render('err',err);
+		if(error){
+			console.log(error);
+			res.render('err',error);
 		}else {
 			console.log(data);
-			var param = new renderSeed("POST LIST");
+			var param = new renderSeed("메인페이지");
 			param["data"] = data;
 	    	res.render('index',param);
     	}

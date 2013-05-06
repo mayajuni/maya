@@ -26,9 +26,10 @@ a.skip:active{width:165px; height:auto;}
 /* left_wrap */
 .left_wrap {float:left; width:140px;}
 .left_wrap .pro {margin-top:15px; text-align: center;}
-.left_wrap .left_menu {margin-top:10px; background: url("../images/left_menu.jpg"); }
-.left_wrap .left_menu_on {background: url("../images/left_menu_on.jpg") no-repeat 0 0; color:#FF0000;}
+/*.left_wrap .left_menu_on {margin-top:-3px; background-image: url("../images/left_menu_on.jpg");background-position: top; color:#FF0000;}*/
+.left_wrap .left_menu_on {background: url("../images/on.jpg") no-repeat; background-position: right center;color:#FF0000;}
 .left_wrap li {text-align: right; padding-right: 38px; font-size: 20px; font-family:han;}
+.left_wrap ul {margin-top:10px; background: url("../images/left_menu.jpg");}
 
 /* content */
 .content {float:right; width:660px; background-color: orange}
