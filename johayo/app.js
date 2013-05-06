@@ -7,7 +7,7 @@ var express = require('express')
 var app = express();
  
 // all environments
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -17,19 +17,14 @@ app.use(express.methodOverride());
 app.use(express.logger());
 app.use(express.cookieParser());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
 app.engine('ejs', engine);
- 
- 
-app.all('/', function(req , res, next){
-	controller.findController(req, res, next);
-});
+/* 밑에 *때문에 이렇게 안주면 js나 css,font,images를 찾지 못한다. 된장먹을  */
+app.all("/js/*", express.static(path.join(__dirname, 'public')));
+app.all("/css/*", express.static(path.join(__dirname, 'public')));
+app.all("/font/*", express.static(path.join(__dirname, 'public')));
+app.all("/images/*", express.static(path.join(__dirname, 'public')));
 
-app.all("/:var1",function(req,res,next){
-	controller.findController(req, res, next);
-});
-
-app.all("/:var1/:var2",function(req,res,next){
+app.all("*", function(req , res, next){
 	controller.findController(req, res, next);
 });
  
