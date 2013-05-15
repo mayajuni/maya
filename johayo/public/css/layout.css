@@ -27,7 +27,6 @@ a.skip:active{width:165px; height:auto;}
 .left_wrap {float:left; width:140px;}
 .left_wrap .pro {margin-top:15px; text-align: center; border:1px solid #000000;}
 .left_wrap .pro .img {margin-top: 5px;}
-/*.left_wrap .left_menu_on {margin-top:-3px; background-image: url("../images/left_menu_on.jpg");background-position: top; color:#FF0000;}*/
 .left_wrap .left_menu_on {background: url("../images/on.jpg") no-repeat; background-position: right center;color:#FF0000;}
 .left_wrap .left_menu_on a:VISITED {color:#FF0000;}
 .left_wrap .left_menu_on a:LINK {color:#FF0000;}
