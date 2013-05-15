@@ -5,12 +5,12 @@
 var mainRoute = require('../service/mainService.js');
 
 var renderSeed = function(title){
-	this.title = title;
+	this.title = "동주니의 블로그|"+title;
 }
 
 /* main */
 exports.controller = function(req, res, menuList){
-	var param = new renderSeed("메인페이지");
+	var param = new renderSeed("메인");
 	param['menus'] = menuList;
 	res.render('index',param);	
 };
