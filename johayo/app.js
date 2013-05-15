@@ -5,6 +5,7 @@ var express = require('express')
   , engine = require('ejs-locals');
  
 var app = express();
+var MemStore = express.session.MemoryStore;
  
 // all environments
 app.set('port', process.env.PORT || 80);
@@ -16,6 +17,9 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.logger());
 app.use(express.cookieParser());
+app.use(express.session({secret: 'secret_key', store: MemStore({
+  reapInterval: 60000 * 10
+})}));
 app.use(app.router);
 app.engine('ejs', engine);
 /* 밑에 *때문에 이렇게 안주면 js나 css,font,images를 찾지 못한다. 된장먹을  */

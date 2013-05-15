@@ -20,37 +20,30 @@
 		<!-- 바로가기 끝 -->
 		<!-- 해더 시작 -->
 		<header class="header fix">
-			<h1 class="desc">about / admin</h1>
+			<h1 class="desc"><a href="/">main</> / admin</h1>
 		</header>
 		<!-- 해더 끝 -->
 		
 		<aside class="left_wrap fix">
 			<article class="pro">
-				저는 권동준 입니다.
+				<div class="img">
+					<img src="/images/dongjun.jpg" atr="프로필 사진" width="130px" height="180px;">
+				</div>
+				안녕하세요.<br>
+				여행과 개발을 사랑하는<br>
+				권동준입니다.
 			</article>
 			<nav>
 				<ul>
-					<li>
-					 	프로필
-					</li>
-					<li>
-					 	메뉴2
-					</li>
-					<li>
-					 	메뉴3
-					</li>
-					<li>
-					 	메뉴4
-					</li>
-					<li>
-					 	메뉴5
-					</li>
-					<li class="left_menu_on">
-					 	메뉴6
-					</li>
-					<li>
-					 	메뉴7
-					</li>
+					<% for(var i=0;i<menus.length;i++){ %>
+						<li <%if(menus[i].click == 'Y'){%>class="left_menu_on"<%}%>>
+						 	<a href="<%=menus[i].url%>"><%=menus[i].name%></a>
+						</li>
+						<% if(menus[i].sub.length > 0) {%>
+							<li class="">
+							</li>
+						<%} %>
+					<% } %>
 				</ul>
 			</nav>
 		</aside>		
