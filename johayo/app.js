@@ -1,5 +1,5 @@
 var express = require('express')
-  , controller = require('./controller/common.js')
+  , routes = require('./routes/common.js')
   , http = require('http')
   , path = require('path')
   , engine = require('ejs-locals');
@@ -29,7 +29,7 @@ app.all("/font/*", express.static(path.join(__dirname, 'public')));
 app.all("/images/*", express.static(path.join(__dirname, 'public')));
 
 app.all("*", function(req , res, next){
-	controller.findController(req, res, next);
+	routes.findRoutes(req, res, next);
 });
  
 http.createServer(app).listen(app.get('port'), function(){
