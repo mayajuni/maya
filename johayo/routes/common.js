@@ -7,6 +7,10 @@
 var main = require('../routes/main.js');
 var board = require('../routes/board.js');
 var db = require('mongojs').connect('14.63.220.231/maya', ['menus']);
+
+var renderSeed = function(title){
+	this.title = "MaYa | "+title;
+}
  
 /* url을 통해 controller을 찾아준다. */
 exports.findRoutes = function(req, res, next){
@@ -18,22 +22,29 @@ exports.findRoutes = function(req, res, next){
 			console.log(error);
 			res.render('err', {title : '오류발생.', err : error});
 		}else{
-			/* 클릭된 메뉴 찾기*/
-			var menuName = '';
-			for(var i=0;i<menuList.length;i++){
-				var data = menuList[i];
-				if(data.url == req.path){
-					data.click = 'Y';
-					menuName = data.name;
+			var param = '';
+			if(paths[1] == ''){
+				param = new renderSeed('main');
+			}else{
+				/* 클릭된 메뉴 찾기*/
+				for(var i=0;i<menuList.length;i++){
+					var data = menuList[i];
+					if(data.url == req.path){
+						data.click = 'Y';
+						param = new renderSeed(data.name);
+					}
+					else
+						data.click = 'N';
 				}
-				else
-					data.click = 'N';
 			}
 			
+			/* 메뉴 데이터 넣기 */
+			param['menus'] = menuList;
+			
 			if(paths[1] == '')
-				main.mainRoute(req, res, menuList);
+				main.mainRoute(req, res, param);
 			else if(paths[1] == 'board')
-				board.boardRoute(req, res, menuList, menuName);
+				board.boardRoute(req, res, param);
 			else 
 				res.render('err', {title : '찾는 페이지가 없습니다', menus : menuList});
 		}
