@@ -31,6 +31,11 @@ app.all("/images/*", express.static(path.join(__dirname, 'public')));
 app.all("*", function(req , res, next){
 	routes.findRoutes(req, res, next);
 });
+
+// development only
+if ('development' == app.get('env')) {
+  app.use(express.errorHandler());
+}
  
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

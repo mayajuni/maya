@@ -40,7 +40,7 @@ article, aside, footer, header, hgroup, nav, section, menu {display:block; paddi
 abbr, acronym, applet, audio, big, canvas, cite, dfn,
 code, samp, kbd, var, datalist, details, keygen, small, 
 source, strike, sub, sup, tt {margin:0; padding:0;}
-button {border:none; margin:0; padding:0; cursor:pointer; background:none; display:block; text-indent:-5000px;}
+button {border:none; margin:0; padding:0; cursor:pointer; background:none; display:block; /* text-indent:-5000px; */}
 hr {display:none;}
 legend {position:absolute; left:-1000%; top:0; width:1px; height:1px; font-size:0; line-height:0; overflow:hidden; text-indent:-5000px;}
 input, button, select, textarea {vertical-align:top;}

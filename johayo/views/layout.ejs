@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko" ng-app='directive'>
+<html lang="ko" ng-app>
 <head>
 	 <meta charset="UTF-8" />
+	 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	 <title><%=title %></title>
 	 <meta name="Description" content="<%=title%>" />
 	 <meta name="Keywords" content="<%=title%>" />
 	 <meta name="Author" content="권동준" />
 	 <link rel="stylesheet" href="/css/layout.css" />
-	 <script src="/js/jquery-1.9.1.min.js"></script>
-	 <script src="http://code.angularjs.org/1.0.6/angular.min.js"></script>
+	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+	 <script src="/js/maya.js"></script>
 	 <!--[if lt IE 9]>
 		<script src="/js/html5.js"></script>
 	 <![endif]-->
@@ -23,7 +24,7 @@
 			<h1 class="desc"><a href="/">main</a> / admin</h1>
 		</header>
 		<!-- 해더 끝 -->
-		
+		<!-- 왼쪽 프로필 및 메뉴 -->
 		<aside class="left_wrap fix">
 			<article class="pro">
 				<div class="img">
@@ -39,17 +40,16 @@
 						<li <%if(menus[i].click == 'Y'){%>class="left_menu_on"<%}%>>
 						 	<a href="<%=menus[i].url%>"><%=menus[i].name%></a>
 						</li>
-						<% if(menus[i].sub.length > 0) {%>
-							<li class="">
-							</li>
-						<%} %>
 					<% } %>
 				</ul>
 			</nav>
-		</aside>		
+		</aside>
+		<!-- 왼쪽 프로필 및 메뉴 끝 -->
+		<!-- 본문 내용 -->
 		<section id="container" class="content">
 			<%-body%>
 		</section>
+		<!-- 본문 내용 끝 -->
 	</div>
 </body>
 </html>

@@ -1,4 +1,8 @@
-<% layout('layout') -%>
-이제 곧 개발 시작합니다.
-<br>
-아직은 대략적인 디자인만 잡혀있습니다..^^ 잠시만 기다려주세요.
+<% layout('layout') -%>	
+<div ng-controller="index">
+<form ng-submit="go()">
+<input type='text' name='username' placeholder='아이디' ng-model='credentials.username' required /> <br> <br>
+<input type='password' name='password' placeholder='비밀번호' ng-model='credentials.password' required />
+<button type="submit" value="modify">aaaaaaaaaaaaaaaaaaaa수정</button> 
+</form>
+</div>
