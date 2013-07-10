@@ -38,7 +38,6 @@ exports.findRoutes = function(req, res, next){
 						data.click = 'N';
 				}
 			}
-			
 			/* 메뉴 데이터 넣기 */
 			param['menus'] = menuList;
 			/* 메뉴 paths[1] 넣기 */
