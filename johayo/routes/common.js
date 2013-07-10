@@ -48,7 +48,7 @@ exports.findRoutes = function(req, res, next){
 			else if(paths[1] == 'board')
 				board.boardRoute(req, res, param);
 			else 
-				res.render('err', {title : '찾는 페이지가 없습니다', menus : menuList});
+				res.render('err', {title : '찾는 페이지가 없습니다', menus : menuList, path:paths[1]});
 		}
 	});
 	
