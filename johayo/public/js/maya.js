@@ -7,3 +7,15 @@ function index($scope){
 		}
 	}
 }
+
+function board($scope){
+	$scope.openColse = function(){
+		if($scope.oc == '열기'){
+			$scope.oc = '닫기';
+			$scope.display='';
+		}else{
+			$scope.oc = '열기';
+			$scope.display='hidden';
+		}
+	}
+}

@@ -1,0 +1,30 @@
+<% layout('layout') -%>	
+<div class="boardList" >
+	<h4><span class="upper"><%=boardName%> 목록</span><span class="oc" ng-click="openColse();" ng-init="oc='닫기'">{{oc}}</span></h4>
+	<div ng-class='display'>
+		<table summary="<%=boardName%> 목록">
+			<caption><%=boardName%> 목록</caption>
+			<colgroup>
+				<col width="87%"/>
+				<col width="13%"/>
+			</colgroup>
+			<tbody>
+				<%%>
+				<tr>
+					<td scope="row">이게 진정 이게이건가요?</td>
+					<td scope="row">2012/11/11</td>
+				</tr>
+				<tr>
+					<td scope="row">이게 진정 이게이건가요?</td>
+					<td scope="row">2012/11/11</td>
+				</tr>
+				<%%>
+			</tbody>
+		</table>
+		<div class="paging"><%=paging%></div>
+	</div>
+</div>
+<%%>
+<div>
+</div>
+<%%>

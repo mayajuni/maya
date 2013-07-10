@@ -25,7 +25,7 @@ a.skip:active{width:165px; height:auto;}
 
 /* left_wrap */
 .left_wrap {float:left; width:140px;}
-.left_wrap .pro {margin-top:15px; text-align: center; border:1px solid #000000;}
+.left_wrap .pro {margin-top:15px; text-align: center; border:1px solid #000000; border-radius:5px;}
 .left_wrap .pro .img {margin-top: 5px;}
 .left_wrap .left_menu_on {background: url("../images/on.jpg") no-repeat; background-position: right center;color:#FF0000;}
 .left_wrap .left_menu_on a:VISITED {color:#FF0000;}
@@ -36,3 +36,14 @@ a.skip:active{width:165px; height:auto;}
 
 /* content */
 .content {float:right; width:655px; margin-top:15px; margin-left: 5px;}
+/* 게시판  */
+.content .boardList {margin-top:1px; border:1px solid #000000; border-radius:5px; }
+.content .boardList h4 {border-collapse: collapse; text-align: left; font-family: 돋움; color: rgb(138,131,126); margin-top: 7px; margin-bottom: 5px;}
+.content .boardList h4 .upper {font-size: 14px; font-weight: bold; margin-left: 15px;}
+.content .boardList h4 .oc {font-size: 11px; cursor: pointer; margin-left: 530px;}
+.content .boardList table {width: 610px;font-size: 12px;table-layout: fixed; margin:0 auto;}
+.content .boardList table tr {border-bottom: 1px solid #D5D5D5; height: 22px;}
+.content .boardList table td {padding-left: 5px; text-align: left; color: rgb(138,131,126);}
+/* 페이징 */
+.content .paging {margin-top:5px; margin-bottom: 5px; text-align: center;color: rgb(138,131,126);}
+ 

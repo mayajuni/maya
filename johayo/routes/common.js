@@ -32,6 +32,7 @@ exports.findRoutes = function(req, res, next){
 					if(data.url == req.path){
 						data.click = 'Y';
 						param = new renderSeed(data.name);
+						param['boardName'] = data.name;
 					}
 					else
 						data.click = 'N';
@@ -40,6 +41,8 @@ exports.findRoutes = function(req, res, next){
 			
 			/* 메뉴 데이터 넣기 */
 			param['menus'] = menuList;
+			/* 메뉴 paths[1] 넣기 */
+			param['path'] = paths[1];
 			
 			if(paths[1] == '')
 				main.mainRoute(req, res, param);

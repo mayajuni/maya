@@ -9,6 +9,7 @@
 	 <meta name="Author" content="권동준" />
 	 <link rel="stylesheet" href="/css/layout.css" />
 	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	 <script src="/js/maya.js"></script>
 	 <!--[if lt IE 9]>
 		<script src="/js/html5.js"></script>
@@ -46,7 +47,7 @@
 		</aside>
 		<!-- 왼쪽 프로필 및 메뉴 끝 -->
 		<!-- 본문 내용 -->
-		<section id="container" class="content">
+		<section id="container" class="content" ng-controller="<%=path%>">
 			<%-body%>
 		</section>
 		<!-- 본문 내용 끝 -->
