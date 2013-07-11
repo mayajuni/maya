@@ -27,13 +27,25 @@ function boardList(req, res, param){
 		viewCount = 5;
 	if(req.param('page') == null || req.param('page') == '')
 		page = 1;
+	console.log(param.path2);
+	db.boards.find({division: param.path2}).count({}, function (error, data) {
+		if(error){
+			console.log(error);
+			res.render('err', {title : '오류발생.', err : error});
+		}
+		param['topPaging'] = paging.topListPaging(data, viewCount, page);
+		param['paging'] = paging.listPaging(data, viewCount, page);
 		
-	param['paging'] = paging.topListPaging(15421, viewCount, page);
-	res.render('board',param);
-	/* 게시판 정보 
-	db.boards.find({}).count({}, function (error, data) {
-		
-	});*/
+		db.boards.find({division: param.path2}).sort({date : -1}).skip(viewCount * (page - 1)).limit(viewCount, function (error, data) {
+			if(error){
+				console.log(error);
+				res.render('err', {title : '오류발생.', err : error});
+			}
+			console.log(data);
+			param['boardList'] = data;	
+			res.render('board',param);
+		})
+	});
 }
 
 /**
@@ -76,7 +88,7 @@ function ajaxInsert(req, res, param){
 	var division = decodeURIComponent(req.param('division'));
 	var title = decodeURIComponent(req.param('title'));
 	var content = decodeURIComponent(req.param('content'));
-	db.boards.insert({'division':division, 'title':title, 'content':content, 'date': nowDates()}, function(error){
+	db.boards.insert({'division':division, 'title':title, 'content':content, 'date': nowDates(), 'comment': ''}, function(error){
 		console.log(error);
 	});
 	res.send('');

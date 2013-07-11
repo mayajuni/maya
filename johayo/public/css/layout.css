@@ -38,14 +38,17 @@ a.skip:active{width:165px; height:auto;}
 .content {float:right; width:655px; margin-top:15px; margin-left: 5px;}
 /* 게시판  */
 .content .board {margin-top:1px; border:1px solid #000000; border-radius:5px; }
+
 .content .board h4 {border-collapse: collapse; text-align: left; font-family: 돋움; color: rgb(138,131,126); margin-top: 7px; margin-bottom: 5px;}
-.content .board h4 .upper {font-size: 14px; font-weight: bold; margin-left: 15px;}
-.content .board h4 .oc {font-size: 11px; cursor: pointer; margin-left: 530px;}
+.content .board h4 .upper {font-size: 13px; font-weight: bold; margin-left: 15px;}
+.content .board h4 .oc {position:absolute; top:101px; right:20px; font-size: 11px; cursor: pointer; text-align: right;}
+
 .content .board table {width: 610px;font-size: 12px;table-layout: fixed; margin:0 auto;}
 .content .board table tr {border-bottom: 1px solid #D5D5D5; height: 22px;}
 .content .board table td {padding-left: 5px; text-align: left; color: rgb(138,131,126);}
+
 .content .board textarea {width:590px; height:500px; padding-left: 5px; padding-top: 5px; border-radius:5px; border-color: rgb(138,131,126);}
-.content .board .text {width:510px; padding-left: 5px; border-radius:5px; border-color: #D5D5D5;}
+.content .board .text {width:495px; padding-left: 5px; border-radius:5px; border-color: #D5D5D5;}
 
 /* 페이징 */
 .content .paging {margin-top:5px; margin-bottom: 5px; text-align: center;color: rgb(138,131,126);}

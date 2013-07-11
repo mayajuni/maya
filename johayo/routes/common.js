@@ -30,7 +30,7 @@ exports.findRoutes = function(req, res, next){
 			res.render('err', {title : '찾는 페이지가 없습니다'});
 	}else{
 		/* 메뉴정보 리턴 */
-		db.menus.find({}).sort({rank : 1}, function (error, menuList) {
+		db.menus.find({use_yn : 'Y'}).sort({rank : 1}, function (error, menuList) {
 			if(error){
 				console.log(error);
 				res.render('err', {title : '오류발생.', err : error});

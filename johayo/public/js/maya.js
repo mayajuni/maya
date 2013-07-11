@@ -9,6 +9,8 @@ function index($scope){
 }
 
 function board($scope, $http){
+	/* 처음에는 topList를 닫아놓은다 */
+	$scope.display='hidden';
 	$scope.openColse = function(){
 		if($scope.oc == '열기'){
 			$scope.oc = '닫기';
@@ -62,7 +64,7 @@ function moveTopPage(page, viewCount){
 		url : window.location.pathname+"/ajaxTopList",
 		success : function(data) {
 			 var data = eval('('+data+')');
-			 $("#paging").html(data.paging);
+			 $("#topPaging").html(data.paging);
 		},
 		error : function() {
 			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
