@@ -8,7 +8,7 @@ function index($scope){
 	}
 }
 
-function board($scope){
+function board($scope, $http){
 	$scope.openColse = function(){
 		if($scope.oc == '열기'){
 			$scope.oc = '닫기';
@@ -18,30 +18,55 @@ function board($scope){
 			$scope.display='hidden';
 		}
 	}
+	
+	$scope.insertBoard = function(){
+		if($("#division").val() == ''){
+			alert("게시판 구분을 선택해주세요.");
+			$("#division").focus();
+			return;
+		}
+		if($("#title").val() == ''){
+			alert("제목을 입력해주세요.");
+			$("#title").focus();
+			return;
+		}
+		if($("#content").val() == ''){
+			alert("내용을 입력해주세요.");
+			$("#content").focus();
+			return;
+		}
+		
+		$.ajax({
+			data : $("#insert").serialize().replace(/%/g,'%25'),
+			type : "POST",
+			async : false,
+			url : "/board/ajaxInsert",
+			success : function() {
+				 alert("등록되셨습니다.");
+				 location.href="/board/"+$("#division").val();
+				 return;
+			},
+			error : function() {
+				alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+				return;
+			}
+		});
+	}
 }
 
 function moveTopPage(page, viewCount){
-	alert(window.location.pathname);
-	return;
 	$.ajax({
 		data : 'page='+page+'&viewCount='+viewCount,
 		type : "POST",
 		async : false,
-		url : "",
-		success : function(data2) {
-			var datas2 = data2.trim().split("^^");
-			if(datas2[0]=="error"){
-				closeLoadingWindow();;
-				alert(datas2[1]);
-				return;
-			}else{
-				alert("등록되었습니다.");
-				location.href="/admJsAct/adm/hope/hopeDetail.jsp?seq="+data2[1];
-			}
+		url : window.location.pathname+"/ajaxTopList",
+		success : function(data) {
+			 var data = eval('('+data+')');
+			 $("#paging").html(data.paging);
 		},
 		error : function() {
 			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
-			closeLoadingWindow();
+			return;
 		}
 	});
 }
