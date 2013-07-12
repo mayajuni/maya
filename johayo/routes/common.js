@@ -27,7 +27,7 @@ exports.findRoutes = function(req, res, next){
 		if(param.path1 == 'board')
 			board.boardAjaxRoute(req, res, param);
 		else
-			res.render('err', {title : '찾는 페이지가 없습니다'});
+			res.render('err', {title : '찾는 페이지가 없습니다', err : '찾는 페이지가 없습니다.'});
 	}else{
 		/* 메뉴정보 리턴 */
 		db.menus.find({use_yn : 'Y'}).sort({rank : 1}, function (error, menuList) {
@@ -57,7 +57,7 @@ exports.findRoutes = function(req, res, next){
 				else if(param.path1 == 'board')
 					board.boardRoute(req, res, param);
 				else 
-					res.render('err', {title : '찾는 페이지가 없습니다'});
+					res.render('err', {title : '찾는 페이지가 없습니다', err : '찾는 페이지가 없습니다.'});
 			}
 		});
 	}

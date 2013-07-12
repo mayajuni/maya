@@ -1,4 +1,4 @@
-<% layout('layout') -%>	
+<% layout('layout') -%>
 <div class="board" >
 	<h4><div class="upper"><%=title%> 목록</div><div class="oc" ng-click="openColse();" ng-init="oc='열기'">{{oc}}</div></h4>
 	<div ng-class='display'>
@@ -9,10 +9,16 @@
 				<col width="13%"/>
 			</colgroup>
 			<tbody>
-				<% for(var i=0;i<boardList.length;i++){ %>
+				<%if(boardList.length > 0){%>
+					<% for(var i=0;i<boardList.length;i++){ %>
+						<tr>
+							<td scope="row"><%=boardList[i].title%></td>
+							<td scope="row"><%=boardList[i].date.substring(0,4)+"/"+boardList[i].date.substring(4,6)+"/"+boardList[i].date.substring(6,8)%></td>
+						</tr>
+					<%}%>
+				<%}else{%>
 					<tr>
-						<td scope="row"><%=boardList[i].title%></td>
-						<td scope="row"><%=boardList[i].date.substring(0,4)+"/"+boardList[i].date.substring(4,6)+"/"+boardList[i].date.substring(6,8)%></td>
+						<td style="text-align: center;" colspan="2">등록된 게시물이 없습니다.<td>
 					</tr>
 				<%}%>
 			</tbody>
@@ -23,36 +29,71 @@
 
 <% for(var i=0;i<boardList.length;i++){ %>
 	<br>
-	<div class='board'>
+	<div class='boardDetail'>
 		<table summary="<%=boardList[i].title%>" style="margin-top:10px; margin-bottom:10px;">
 			<caption><%=boardList[i].title%></caption>
 			<colgroup>
 				<col width="70%"/>
 				<col width="30%"/>
 			</colgroup>
-			<tr style="border-bottom: 1px dotted #D5D5D5;">
-				<td style="font-size: 14px; font-weight: bold;">
-					<%=boardList[i].title%>
-				</td>
-				<td style="text-align: right; font-size: 12px">
-					<%=boardList[i].date.substring(0,4)+"/"+boardList[i].date.substring(4,6)+"/"+boardList[i].date.substring(6,8)+" "+boardList[i].date.substring(8,10)+":"+boardList[i].date.substring(10,12)%>
-				</td>
-			</tr>
-			<tr style="border-bottom: 1px dotted #D5D5D5;">
-				<td colspan="2">
-					<div style="margin-top:5px;margin-bottom:5px;">
-						<pre><%-boardList[i].content%></pre>
-					</div>
-				</td>
-			</tr>
-			<tr style="border-bottom: 0px;">
-				<td colspan="2">
-					<input type="text" id="content" >
-					<input type="text" id="id" >
-					<input type="password" id="pw" > 
-				</td>
-			</tr>
+			<thead>
+				<tr class='aa'>
+					<td class="title">
+						<%=boardList[i].title%>
+					</td>
+					<td class="date">
+						<%=boardList[i].date.substring(0,4)+"/"+boardList[i].date.substring(4,6)+"/"+boardList[i].date.substring(6,8)+" "+boardList[i].date.substring(8,10)+":"+boardList[i].date.substring(10,12)%>
+					</td>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="2">
+						<table summary="<%=boardList[i].title%>" style="border: 0px; width: 580px; table-layout: fixed; margin:0 auto;">
+							<caption><%=boardList[i].title%></caption>
+							<colgroup>
+								<col width="10%"/>
+								<col width="60%"/>
+								<col width="30%"/>
+							</colgroup>
+							<tbody>
+							<%if(boardList[i].comment.length > 0){%>
+								<%for(var j=0;j<boardList[i].comment.length;j++){%>
+									<tr>
+										<td style="border-right: 1px dotted #000000;"><%=boardList[i].comment[j].id%></td>
+										<td><%=boardList[i].comment[j].content%></td>
+										<td style="text-align:right;">
+											<%var date = String(boardList[i].comment[j].date)%>
+											<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>
+										</td>
+									</tr>
+								<%}%>							
+							<%}%>
+							</tbody>
+						</table>
+						<div style="text-align:right; margin-top: 5px;">
+							<form>
+								ㄴ<input type="text" size="65" id="content<%=i%>" placeholder='내용' required >
+								<input type="text" size="10" id="id<%=i%>" placeholder='아이디' required >
+								<input type="password" size="10" id="password<%=i%>" placeholder='비밀번호' required > 
+								<input type="submit" value="등록" ng-click="insertComment('<%=i%>', '<%=boardList[i]._id%>');" /> 
+							</form>
+						</div>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
+				<tr>
+					<td colspan="2">
+						<div style="margin-top:5px;margin-bottom:2px;">
+							<pre><%-boardList[i].content%></pre>
+						</div>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 <%}%>
-<div class="paging" id="paging"><%-paging%></div>
+<%if(boardList.length > 0){%>
+	<div class="paging" id="paging"><%-paging%></div>
+<%}%>

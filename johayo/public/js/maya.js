@@ -21,6 +21,39 @@ function board($scope, $http){
 		}
 	}
 	
+	$scope.insertComment = function(index, _id){
+		if($("#content"+index).val() == ''){
+			alert("내용을 입력해주세요.");
+			$("#content"+index).focus();
+			return;
+		}
+		if($("#id"+index).val() == ''){
+			alert("아이디을 입력해주세요.");
+			$("#id"+index).focus();
+			return;
+		}
+		if($("#password"+index).val() == ''){
+			alert("비밀번호을 입력해주세요.");
+			$("#password"+index).focus();
+			return;
+		}
+		
+		$.ajax({
+			data : "_id="+_id+"&id="+$("#id"+index).val()+"&password="+$("#password"+index).val()+"&content="+$("#content"+index).val(),
+			type : "POST",
+			async : false,
+			url : "/board/ajaxCommentInsert",
+			success : function() {
+				 
+				 return;
+			},
+			error : function() {
+				alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+				return;
+			}
+		});
+	}
+	
 	$scope.insertBoard = function(){
 		if($("#division").val() == ''){
 			alert("게시판 구분을 선택해주세요.");
