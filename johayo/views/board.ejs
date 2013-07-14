@@ -8,7 +8,7 @@
 				<col width="87%"/>
 				<col width="13%"/>
 			</colgroup>
-			<tbody>
+			<tbody id="boardList">
 				<%if(boardList.length > 0){%>
 					<% for(var i=0;i<boardList.length;i++){ %>
 						<tr>
@@ -46,26 +46,30 @@
 					</td>
 				</tr>
 			</thead>
-			<tfoot>
+			<tfoot ng-class='tfoot'>
 				<tr>
 					<td colspan="2">
-						<table summary="<%=boardList[i].title%>" style="border: 0px; width: 580px; table-layout: fixed; margin:0 auto;">
-							<caption><%=boardList[i].title%></caption>
-							<colgroup>
-								<col width="10%"/>
-								<col width="60%"/>
-								<col width="30%"/>
-							</colgroup>
-							<tbody>
+					<span style="font-family: 돋움; color: rgb(138,131,126); margin-left: 5px; cursor: pointer;" ng-click="commentOpenColse();" ng-init="commentOc='comment'"><b>{{commentOc}}</b></td>
+					<td>
+				</tr>
+				<tr ng-class='commnetDisplay'>
+					<td colspan="2">
+						<table summary="<%=boardList[i].title%> 댓글" style="border: 0px; width: 580px; table-layout: fixed; margin:0 auto;">
+							<caption><%=boardList[i].title%> 댓글</caption>
+							<tbody id="comment">
 							<%if(boardList[i].comment.length > 0){%>
-								<%for(var j=0;j<boardList[i].comment.length;j++){%>
+								<%
+								for(var j=0;j<boardList[i].comment.length;j++){
+									var date = String(boardList[i].comment[j].date)
+								%>
 									<tr>
-										<td style="border-right: 1px dotted #000000;"><%=boardList[i].comment[j].id%></td>
-										<td><%=boardList[i].comment[j].content%></td>
-										<td style="text-align:right;">
-											<%var date = String(boardList[i].comment[j].date)%>
-											<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>
+										<td>
+											<span style="font-size: 13px; font-weight: bold;"><%=boardList[i].comment[j].id%></span>
+											<span style="font-size: 11px;">(<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>)</span>
 										</td>
+									</tr>
+									<tr>
+										<td style="border-bottom: 1px dotted #000000;"><%=boardList[i].comment[j].content%></td>
 									</tr>
 								<%}%>							
 							<%}%>

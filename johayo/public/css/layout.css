@@ -54,11 +54,11 @@ a.skip:active{width:165px; height:auto;}
 .content .boardDetail {margin-top:1px; border:1px solid #000000; border-radius:5px; }
 .content .boardDetail table {width: 610px; font-size: 12px; table-layout: fixed; margin:0 auto;}
 .content .boardDetail table tr {border-bottom: 1px dotted rgb(138,131,126);}
-.content .boardDetail table tfoot {background-color: #EAEAEA;}
 .content .boardDetail table tfoot tr{border-bottom: 0px;margin-top: 5px;}
 .content .boardDetail table tfoot td{padding-top: 5px;}
 .content .boardDetail table .title {font-size: 14px; font-weight: bold;}
 .content .boardDetail table .date {text-align: right; font-size: 12px;}
+.tfoot{background-color: #EAEAEA;}
 
 /* 페이징 */
 .content .paging {margin-top:5px; margin-bottom: 5px; text-align: center;color: rgb(138,131,126);}

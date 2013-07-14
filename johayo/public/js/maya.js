@@ -12,7 +12,7 @@ function board($scope, $http){
 	/* 처음에는 topList를 닫아놓은다 */
 	$scope.display='hidden';
 	$scope.openColse = function(){
-		if($scope.oc == '열기'){
+		if($scope.display=='hidden'){
 			$scope.oc = '닫기';
 			$scope.display='';
 		}else{
@@ -21,6 +21,19 @@ function board($scope, $http){
 		}
 	}
 	
+	/* 댓글 열기 닫기 */
+	$scope.commnetDisplay = 'hidden';
+	$scope.commentOpenColse = function(){
+		if($scope.commnetDisplay == 'hidden'){
+			$scope.tfoot = 'tfoot';
+			$scope.commnetDisplay='';
+		}else{
+			$scope.tfoot = '';
+			$scope.commnetDisplay='hidden';
+		}
+	}
+	
+	/* 댓글 등록 */
 	$scope.insertComment = function(index, _id){
 		if($("#content"+index).val() == ''){
 			alert("내용을 입력해주세요.");
@@ -43,9 +56,17 @@ function board($scope, $http){
 			type : "POST",
 			async : false,
 			url : "/board/ajaxCommentInsert",
-			success : function() {
-				 
-				 return;
+			success : function(data) {
+				var data = eval('('+data+')');
+				var html = '';
+				for(var i=0;i<data.boardInfo.comment.length;i++){
+					html = html + '<tr><td><span style="font-size: 13px; font-weight: bold;">'+data.boardInfo.comment[i].id+'</span>';
+					html = html + '<span style="font-size: 11px;">('+data.boardInfo.comment[i].date.substring(0,4)+'/'+data.boardInfo.comment[i].date.substring(4,6)+'/'+data.boardInfo.comment[i].date.substring(6,8)+' '+data.boardInfo.comment[i].date.substring(8,10)+':'+data.boardInfo.comment[i].date.substring(10,12)+')</span></td></tr>';
+					html = html + '<tr><td style="border-bottom: 1px dotted #000000;">'+data.boardInfo.comment[i].content+'</td></tr>';
+				}
+				
+				$("#comment").html(html);
+				return;
 			},
 			error : function() {
 				alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
@@ -97,7 +118,12 @@ function moveTopPage(page, viewCount){
 		url : window.location.pathname+"/ajaxTopList",
 		success : function(data) {
 			 var data = eval('('+data+')');
-			 $("#topPaging").html(data.paging);
+			 var html = '';
+			 for(var i=0;i<data.boardList.length;i++){
+				 html = html + '<tr><td scope="row">'+data.boardList[i].title+'</td><td scope="row">'+data.boardList[i].date.substring(0,4)+'/'+data.boardList[i].date.substring(4,6)+'/'+data.boardList[i].date.substring(6,8)+'</td></tr>';
+			 }
+			 $("#boardList").html(html);
+			 $("#topPaging").html(data.topPaging);
 		},
 		error : function() {
 			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");

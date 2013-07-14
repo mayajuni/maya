@@ -36,10 +36,8 @@ exports.boardAjaxRoute = function(req, res, param){
  * 게시판 목록(처음화면)
  */
 function boardList(req, res, param){
-	if(req.param("viewCount") == null || req.param("viewCount") == "")
-		viewCount = 5;
-	if(req.param("page") == null || req.param("page") == "")
-		page = 1;
+	var viewCount = (req.param("viewCount") == null || req.param("viewCount") == "") ? 5 :  parseInt( req.param("viewCount"), 10 );
+	var page = (req.param("page") == null || req.param("page") == "") ? 1 : parseInt( req.param("page"), 10 );
 	
 	db.boards.find({division: param.path2}).count({}, function (err, data) {
 		if(err){
@@ -80,9 +78,27 @@ function boardUpdate(req, res, param){
 /**
  * topList의 데이터를 json방식으로 return.
  */
-function ajaxTopList(req, res, param){		
-	param["paging"] = paging.topListPaging(15421, req.param("viewCount"), req.param("page"));
-	res.send(param);
+function ajaxTopList(req, res, param){	
+	var viewCount = (req.param("viewCount") == null || req.param("viewCount") == "") ? 5 :  parseInt( req.param("viewCount"), 10 );
+	var page = (req.param("page") == null || req.param("page") == "") ? 1 : parseInt( req.param("page"), 10 );
+	
+	db.boards.find({division: param.path2}).count({}, function (err, count) {
+		if(err){
+			console.log(err);
+			res.render("err", {title : "오류발생.", err : err});
+		}
+		
+		db.boards.find({division: param.path2}).sort({date : -1, comment : {date : 1}}).skip(viewCount * (page - 1)).limit(viewCount, function (err, data) {
+			if(err){
+				console.log(err);
+				res.render("err", {title : "오류발생.", err : err});
+			}
+			
+			param["boardList"] = data;
+			param["topPaging"] = paging.topListPaging(count, viewCount, page);
+			res.send(param);
+		})
+	});
 }
 /**
  * 게시판 등록
