@@ -22,14 +22,13 @@ function board($scope, $http){
 	}
 	
 	/* 댓글 열기 닫기 */
-	$scope.commnetDisplay = 'hidden';
-	$scope.commentOpenColse = function(){
-		if($scope.commnetDisplay == 'hidden'){
-			$scope.tfoot = 'tfoot';
-			$scope.commnetDisplay='';
+	$scope.commentOpenColse = function(index){
+		if($("#commnetDisplay"+index).attr('class') == 'hidden'){
+			$("#tfoot"+index).attr('class', 'tfoot');
+			$("#commnetDisplay"+index).attr('class', '');
 		}else{
-			$scope.tfoot = '';
-			$scope.commnetDisplay='hidden';
+			$("#tfoot"+index).attr('class', '');
+			$("#commnetDisplay"+index).attr('class', 'hidden');
 		}
 	}
 	
@@ -130,4 +129,8 @@ function moveTopPage(page, viewCount){
 			return;
 		}
 	});
+}
+
+function movePage(page, viewCount){
+	location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
 }

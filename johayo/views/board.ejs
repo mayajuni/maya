@@ -46,13 +46,13 @@
 					</td>
 				</tr>
 			</thead>
-			<tfoot ng-class='tfoot'>
+			<tfoot id='tfoot<%=i%>'>
 				<tr>
 					<td colspan="2">
-					<span style="font-family: 돋움; color: rgb(138,131,126); margin-left: 5px; cursor: pointer;" ng-click="commentOpenColse();" ng-init="commentOc='comment'"><b>{{commentOc}}</b></td>
+					<span style="font-family: 돋움; color: rgb(138,131,126); margin-left: 5px; cursor: pointer;" ng-click="commentOpenColse(<%=i%>);" ng-init="commentOc='comment'"><b>{{commentOc}}</b></td>
 					<td>
 				</tr>
-				<tr ng-class='commnetDisplay'>
+				<tr id='commnetDisplay<%=i%>' class="hidden">
 					<td colspan="2">
 						<table summary="<%=boardList[i].title%> 댓글" style="border: 0px; width: 580px; table-layout: fixed; margin:0 auto;">
 							<caption><%=boardList[i].title%> 댓글</caption>

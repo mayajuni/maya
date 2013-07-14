@@ -60,6 +60,10 @@ function boardList(req, res, param){
 	});
 }
 
+function boardDetail(req, res, param){
+	
+}
+
 /**
  * 게시판 등록
  */
