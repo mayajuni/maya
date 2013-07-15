@@ -12,7 +12,14 @@
 				<%if(boardList.length > 0){%>
 					<% for(var i=0;i<boardList.length;i++){ %>
 						<tr>
-							<td scope="row"><%=boardList[i].title%></td>
+							<td scope="row">
+								<span ng-click="goDetail('<%=boardList[i]._id%>', '<%=i%>');" name="aTag" id="aTag<%=i%>" style="cursor: pointer;"><%=boardList[i].title%></span>
+								<%if(boardList[i].comment.length > 0){%>
+								<span style="color: red;">
+									(<b><%=boardList[i].comment.length%></b>)
+								</span>
+								<%}%>
+							</td>
 							<td scope="row"><%=boardList[i].date.substring(0,4)+"/"+boardList[i].date.substring(4,6)+"/"+boardList[i].date.substring(6,8)%></td>
 						</tr>
 					<%}%>
@@ -49,7 +56,7 @@
 			<tfoot id='tfoot<%=i%>'>
 				<tr>
 					<td colspan="2">
-					<span class="comment" ng-click="commentOpenColse(<%=i%>);" ng-init="commentOc='comment'"><b>{{commentOc}}</b></td>
+					<span class="comment" ng-click="commentOpenColse(<%=i%>);" ng-init="commentOc='comment'"><b>{{commentOc}}</b></span></td>
 					<td>
 				</tr>
 				<tr id='commnetDisplay<%=i%>' class="hidden">
@@ -92,6 +99,9 @@
 											<td colspan="3">
 												<span class="commentTitle"><%=boardList[i].comment[j].id%></span>
 												<span style="font-size: 11px;">(<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>)</span>
+												<span style="cursor: pointer;" onclick="showDelete('<%=i%>', '<%=boardList[i]._id%>', '<%=boardList[i].comment[j].id%>', '<%=boardList[i].comment[j].date%>', event)">
+													x
+												</span>
 											</td>
 										</tr>
 										<tr>

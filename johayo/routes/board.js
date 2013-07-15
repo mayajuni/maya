@@ -27,10 +27,12 @@ exports.boardAjaxRoute = function(req, res, param){
 	res.set("Content-Type", "text/html");
 	if(req.path.indexOf("ajaxTopList") >=0)
 		ajaxTopList(req, res, param);
-	if(req.path.indexOf("ajaxInsert") >=0)
+	else if(req.path.indexOf("ajaxInsert") >=0)
 		ajaxInsert(req, res, param);
-	if(req.path.indexOf("ajaxCommentInsert") >=0)
+	else if(req.path.indexOf("ajaxCommentInsert") >=0)
 		ajaxCommentInsert(req, res, param);
+	else if(req.path.indexOf("ajaxCommentDelete") >=0)
+		ajaxCommentDelete(req, res, param);
 }
 
 /**
@@ -59,7 +61,6 @@ function boardList(req, res, param){
 			}
 			
 			param["boardList"] = data;
-			console.log(data);
 			res.render("board",param);
 		})
 	});
@@ -72,7 +73,22 @@ function boardList(req, res, param){
  * @param param
  */
 function boardDetail(req, res, param){
+	var _id = req.param("_id");
 	
+	if(null == _id || '' == _id)
+		res.render("err", {title : "필수값 전달 안됨", err : "필수값 전달 안됨"});
+	
+	db.boards.findOne({ _id: db.ObjectId(_id) }, function (err, data) {
+		if(err){
+			console.log(err);
+			res.render("err", {title : "오류발생.", err : err});
+		}
+		
+		param["boardInfo"] = data;
+		
+		console.log(data);
+		res.render("boardDetail",param);
+	});
 }
 
 /**
@@ -84,7 +100,7 @@ function boardDetail(req, res, param){
  * @returns
  */
 function boardInsert(req, res, param){
-	param["title"] = req.param("title");
+	param["title"] = req.param("title") == null ? "게시판" : req.param("title");
 	res.render("boardInsert", param);
 }
 
@@ -172,6 +188,28 @@ function ajaxCommentInsert(req, res, param){
     	function(err, data){
     		if(err)
 				console.log(err);
+			param['boardInfo'] = data;
+			res.send(param);
+	});
+}
+
+function ajaxCommentDelete(req, res, param){
+	var _id = decodeURIComponent(req.param("_id"));
+	var id = decodeURIComponent(req.param("id"));
+	var password = decodeURIComponent(req.param("password"));
+	var date = decodeURIComponent(req.param("commentDate"));
+	
+	console.log(_id + "/" + id + "/" + password  + "/" + date);
+	
+	db.boards.findAndModify({
+		query: { _id: db.ObjectId(_id) },
+    	update: { $pull : {comment : {id : id, password : password, date : date}} },
+    	new: true
+    	},
+    	function(err, data){
+    		if(err)
+				console.log(err);
+    		
 			param['boardInfo'] = data;
 			res.send(param);
 	});
