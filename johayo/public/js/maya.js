@@ -59,12 +59,11 @@ function board($scope, $http){
 				var data = eval('('+data+')');
 				var html = '';
 				for(var i=0;i<data.boardInfo.comment.length;i++){
-					html = html + '<tr><td><span style="font-size: 13px; font-weight: bold;">'+data.boardInfo.comment[i].id+'</span>';
-					html = html + '<span style="font-size: 11px;">('+data.boardInfo.comment[i].date.substring(0,4)+'/'+data.boardInfo.comment[i].date.substring(4,6)+'/'+data.boardInfo.comment[i].date.substring(6,8)+' '+data.boardInfo.comment[i].date.substring(8,10)+':'+data.boardInfo.comment[i].date.substring(10,12)+')</span></td></tr>';
-					html = html + '<tr><td style="border-bottom: 1px dotted #000000;">'+data.boardInfo.comment[i].content+'</td></tr>';
+					html = html + '<tr><td><span class="commentTitle">'+data.boardInfo.comment[i].id+'</span> <span style="font-size: 11px;">('+data.boardInfo.comment[i].date.substring(0,4)+'/'+data.boardInfo.comment[i].date.substring(4,6)+'/'+data.boardInfo.comment[i].date.substring(6,8)+' '+data.boardInfo.comment[i].date.substring(8,10)+':'+data.boardInfo.comment[i].date.substring(10,12)+')</span></td></tr>';
+					html = html + '<tr><td class="commentContent"><pre>'+data.boardInfo.comment[i].content+'</pre></td></tr>';
 				}
 				
-				$("#comment").html(html);
+				$("#comment"+index).html(html);
 				return;
 			},
 			error : function() {

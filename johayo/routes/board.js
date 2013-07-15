@@ -8,13 +8,14 @@ var paging = require("../util/paging.js");
 
 /**
  * 게시판
- * param : 메뉴, title 등 여러가지고 값
  */
 exports.boardRoute = function(req, res, param){
-	if(param.path2 == "insert")
+	if("insert" == param.path2)
 		boardInsert(req, res, param);
-	else if(param.path2 == "update")
+	else if("update" == param.path2)
 		boardUpdate(req, res, param);
+	else if("detail" == param.path3)
+		boardDetail(req, res, param);
 	else
 		boardList(req, res, param); 
 };
@@ -33,7 +34,11 @@ exports.boardAjaxRoute = function(req, res, param){
 }
 
 /**
- * 게시판 목록(처음화면)
+ * 게시판 리스트
+ * 
+ * @param req
+ * @param res
+ * @param param
  */
 function boardList(req, res, param){
 	var viewCount = (req.param("viewCount") == null || req.param("viewCount") == "") ? 5 :  parseInt( req.param("viewCount"), 10 );
@@ -60,12 +65,23 @@ function boardList(req, res, param){
 	});
 }
 
+/**
+ * 
+ * @param req
+ * @param res
+ * @param param
+ */
 function boardDetail(req, res, param){
 	
 }
 
 /**
- * 게시판 등록
+ * 게시판 등록 페이지 호출
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
  */
 function boardInsert(req, res, param){
 	param["title"] = req.param("title");
@@ -73,7 +89,12 @@ function boardInsert(req, res, param){
 }
 
 /**
- * 게시판 수정
+ * 게시판 수정 페이지 호출
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
  */
 function boardUpdate(req, res, param){
 	res.render("boardUpdate", param);
@@ -81,6 +102,11 @@ function boardUpdate(req, res, param){
 
 /**
  * topList의 데이터를 json방식으로 return.
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
  */
 function ajaxTopList(req, res, param){	
 	var viewCount = (req.param("viewCount") == null || req.param("viewCount") == "") ? 5 :  parseInt( req.param("viewCount"), 10 );
@@ -104,8 +130,14 @@ function ajaxTopList(req, res, param){
 		})
 	});
 }
+
 /**
  * 게시판 등록
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
  */
 function ajaxInsert(req, res, param){
 	var division = decodeURIComponent(req.param("division"));
@@ -119,7 +151,12 @@ function ajaxInsert(req, res, param){
 }
 
 /**
- * 댓글 등록
+ * 댓글 등록 후 댓글 목록을 가져다 준다.
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
  */
 function ajaxCommentInsert(req, res, param){
 	var _id = decodeURIComponent(req.param("_id"));
@@ -140,6 +177,11 @@ function ajaxCommentInsert(req, res, param){
 	});
 }
 
+/**
+ * 현재 날짜 가져오기. 유틸로 해서 뺼까 고민중
+ * 
+ * @returns
+ */
 function nowDates() {  
 	//format : yyyyMMddHHmmss
 	var ndate = new Date();

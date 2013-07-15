@@ -60,6 +60,12 @@ a.skip:active{width:165px; height:auto;}
 .content .boardDetail table .date {text-align: right; font-size: 12px;}
 .tfoot{background-color: #EAEAEA;}
 
+/* comment(댓글) */
+.comment {font-family: 돋움; color: rgb(138,131,126); margin-left: 5px; cursor: pointer;}
+.commentTable {border: 0px; width: 580px; table-layout: fixed; margin:0 auto;}
+.commentTitle {font-size: 13px; padding-left: 2px; font-weight: bold;}
+.commentContent {border-bottom: 1px dotted #000000; padding-left: 3px;}
+
 /* 페이징 */
 .content .paging {margin-top:5px; margin-bottom: 5px; text-align: center;color: rgb(138,131,126);}
  

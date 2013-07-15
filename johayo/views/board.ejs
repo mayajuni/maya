@@ -26,7 +26,7 @@
 		<div class="paging" id="topPaging"><%-topPaging%></div>
 	</div>
 </div>
-
+<div id="boardInfo">
 <% for(var i=0;i<boardList.length;i++){ %>
 	<br>
 	<div class='boardDetail'>
@@ -37,7 +37,7 @@
 				<col width="30%"/>
 			</colgroup>
 			<thead>
-				<tr class='aa'>
+				<tr>
 					<td class="title">
 						<%=boardList[i].title%>
 					</td>
@@ -49,40 +49,59 @@
 			<tfoot id='tfoot<%=i%>'>
 				<tr>
 					<td colspan="2">
-					<span style="font-family: 돋움; color: rgb(138,131,126); margin-left: 5px; cursor: pointer;" ng-click="commentOpenColse(<%=i%>);" ng-init="commentOc='comment'"><b>{{commentOc}}</b></td>
+					<span class="comment" ng-click="commentOpenColse(<%=i%>);" ng-init="commentOc='comment'"><b>{{commentOc}}</b></td>
 					<td>
 				</tr>
 				<tr id='commnetDisplay<%=i%>' class="hidden">
 					<td colspan="2">
-						<table summary="<%=boardList[i].title%> 댓글" style="border: 0px; width: 580px; table-layout: fixed; margin:0 auto;">
-							<caption><%=boardList[i].title%> 댓글</caption>
-							<tbody id="comment">
-							<%if(boardList[i].comment.length > 0){%>
-								<%
-								for(var j=0;j<boardList[i].comment.length;j++){
-									var date = String(boardList[i].comment[j].date)
-								%>
+						<form>
+							<table summary="<%=boardList[i].title%> 댓글" class="commentTable">
+								<caption><%=boardList[i].title%> 댓글</caption>
+								<colgroup>
+									<col width="79%"/>
+									<col width="14%"/>
+									<col width="7%"/>
+								</colgroup>
+								<tfoot style="board: 0px;">
 									<tr>
-										<td>
-											<span style="font-size: 13px; font-weight: bold;"><%=boardList[i].comment[j].id%></span>
-											<span style="font-size: 11px;">(<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>)</span>
+										<td rowspan="2" style="text-align: right; padding-right: 5px;">
+											<textarea id="content<%=i%>" style="width:460px; height:40px; padding-left: 5px; padding-top: 5px; border-radius:5px; border-color: rgb(138,131,126);" placeholder='내용' required ></textarea>
 										</td>
 									</tr>
 									<tr>
-										<td style="border-bottom: 1px dotted #000000;"><%=boardList[i].comment[j].content%></td>
+										<td>
+											<div>
+												<input type="text" size="12" id="id<%=i%>" placeholder='아이디' required >
+											</div>
+											<div style="padding-top: 6px;">
+												<input type="password" size="12" id="password<%=i%>" placeholder='비밀번호' required >
+											</div>
+										</td>
+										<td>
+											<input type="submit" value="등록" style="width:40px; height:40px;" ng-click="insertComment('<%=i%>', '<%=boardList[i]._id%>');" >
+										</td>
 									</tr>
-								<%}%>							
-							<%}%>
-							</tbody>
-						</table>
-						<div style="text-align:right; margin-top: 5px;">
-							<form>
-								ㄴ<input type="text" size="65" id="content<%=i%>" placeholder='내용' required >
-								<input type="text" size="10" id="id<%=i%>" placeholder='아이디' required >
-								<input type="password" size="10" id="password<%=i%>" placeholder='비밀번호' required > 
-								<input type="submit" value="등록" ng-click="insertComment('<%=i%>', '<%=boardList[i]._id%>');" /> 
-							</form>
-						</div>
+								</tfoot>
+								<tbody id="comment<%=i%>">
+								<%if(boardList[i].comment.length > 0){%>
+									<%
+									for(var j=0;j<boardList[i].comment.length;j++){
+										var date = String(boardList[i].comment[j].date)
+									%>
+										<tr>
+											<td colspan="3">
+												<span class="commentTitle"><%=boardList[i].comment[j].id%></span>
+												<span style="font-size: 11px;">(<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>)</span>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="3" class="commentContent"><pre><%=boardList[i].comment[j].content%></pre></td>
+										</tr>
+									<%}%>							
+								<%}%>
+								</tbody>
+							</table>
+						</form>
 					</td>
 				</tr>
 			</tfoot>
@@ -101,3 +120,4 @@
 <%if(boardList.length > 0){%>
 	<div class="paging" id="paging"><%-paging%></div>
 <%}%>
+</div>
