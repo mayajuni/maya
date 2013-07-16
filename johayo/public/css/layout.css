@@ -66,8 +66,11 @@ a.skip:active{width:165px; height:auto;}
 .commentTitle {font-size: 13px; padding-left: 2px; font-weight: bold;}
 .commentContent {border-bottom: 1px dotted #000000; padding-left: 3px; }
 
-/* 상위 게시물 클릭 */
+/* 상위 게시판 목록 클릭시 */
 .clickOk {font-weight: bold;}
+
+/* 관리자 페이지 로그인시 */
+.admin {margin-top:1px; border:1px solid #000000; border-radius:5px; }
 
 /* 페이징 */
 .content .paging {margin-top:5px; margin-bottom: 5px; text-align: center;color: rgb(138,131,126);}

@@ -3,21 +3,33 @@
  * 작성자 : 권동준
  * 먼가 service와 controll 그리고 DAO가 짬뽕된 느낌..훔... 혼자 고민좀 해보자
  */
-var db = require("mongojs").connect("14.63.220.231/maya", ["boards"]);
+var pro = require("../util/property.js");
 var paging = require("../util/paging.js");
+var err = require("../routes/err.js");
+var db = require('mongojs').connect(pro.dbInfo(), ['boards']);
 
 /**
  * 게시판
  */
 exports.boardRoute = function(req, res, param){
+	if(("insert" == param.path2 || "update" == param.path2)){
+		if(!param['isAdmin'])
+			err.error(res, '권한이 없습니다.');
+		else
+			param["title"] = null == req.param("title") ? "게시판" : req.param("title");
+	}
+	
 	if("insert" == param.path2)
 		boardInsert(req, res, param);
 	else if("update" == param.path2)
 		boardUpdate(req, res, param);
 	else if("detail" == param.path3)
 		boardDetail(req, res, param);
-	else
-		boardList(req, res, param); 
+	// 위에 3가지 경우 빼고는 title은 다 존재 한다. 
+	else if ('' != param["title"] && null != param["title"])
+		boardList(req, res, param);
+	else 
+		err.error(res, '찾는 페이지가 없습니다.');
 };
 
 /**
@@ -49,7 +61,7 @@ function boardList(req, res, param){
 	db.boards.find({division: param.path2}).count({}, function (err, data) {
 		if(err){
 			console.log(err);
-			res.render("err", {title : "오류발생.", err : err});
+			err.error(res, err);
 		}
 		param["topPaging"] = paging.topListPaging(data, viewCount, page);
 		param["paging"] = paging.listPaging(data, viewCount, page);
@@ -57,7 +69,7 @@ function boardList(req, res, param){
 		db.boards.find({division: param.path2}).sort({date : -1, comment : {date : 1}}).skip(viewCount * (page - 1)).limit(viewCount, function (err, data) {
 			if(err){
 				console.log(err);
-				res.render("err", {title : "오류발생.", err : err});
+				err.error(res, err);
 			}
 			
 			param["boardList"] = data;
@@ -76,17 +88,16 @@ function boardDetail(req, res, param){
 	var _id = req.param("_id");
 	
 	if(null == _id || '' == _id)
-		res.render("err", {title : "필수값 전달 안됨", err : "필수값 전달 안됨"});
+		err.error(res, '필수값 전달 안됨');
 	
 	db.boards.findOne({ _id: db.ObjectId(_id) }, function (err, data) {
 		if(err){
 			console.log(err);
-			res.render("err", {title : "오류발생.", err : err});
+			err.error(res, err);
 		}
 		
 		param["boardInfo"] = data;
 		
-		console.log(data);
 		res.render("boardDetail",param);
 	});
 }
@@ -100,7 +111,6 @@ function boardDetail(req, res, param){
  * @returns
  */
 function boardInsert(req, res, param){
-	param["title"] = req.param("title") == null ? "게시판" : req.param("title");
 	res.render("boardInsert", param);
 }
 
@@ -131,13 +141,13 @@ function ajaxTopList(req, res, param){
 	db.boards.find({division: param.path2}).count({}, function (err, count) {
 		if(err){
 			console.log(err);
-			res.render("err", {title : "오류발생.", err : err});
+			err.error(res, err);
 		}
 		
 		db.boards.find({division: param.path2}).sort({date : -1, comment : {date : 1}}).skip(viewCount * (page - 1)).limit(viewCount, function (err, data) {
 			if(err){
 				console.log(err);
-				res.render("err", {title : "오류발생.", err : err});
+				err.error(res, err);
 			}
 			
 			param["boardList"] = data;
@@ -188,6 +198,7 @@ function ajaxCommentInsert(req, res, param){
     	function(err, data){
     		if(err)
 				console.log(err);
+				
 			param['boardInfo'] = data;
 			res.send(param);
 	});

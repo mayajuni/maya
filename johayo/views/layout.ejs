@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko" ng-app>
 <head>
-	 <meta charset="UTF-8" />
-	 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	 <title>MaYa | <%=title %></title>
-	 <meta name="Description" content="<%=title%>" />
-	 <meta name="Keywords" content="<%=title%>" />
-	 <meta name="Author" content="권동준" />
-	 <link rel="stylesheet" href="/css/layout.css" />
-	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	 <script src="/js/maya.js"></script>
-	 <!--[if lt IE 9]>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<title>MaYa | <%=title %></title>
+	<meta name="Description" content="<%=title%>" />
+	<meta name="Keywords" content="<%=title%>" />
+	<meta name="Author" content="권동준" />
+	<link rel="stylesheet" href="/css/layout.css" />
+	<link rel="stylesheet" href="/css/jquery-ui.custom.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="/js/jquery-ui.custom.js"></script>
+	<script src="/js/maya.js"></script>
+	<!--[if lt IE 9]>
 		<script src="/js/html5.js"></script>
-	 <![endif]-->
+	<![endif]-->
 </head> 
 <body>
 	<div class="wrapper">
@@ -22,7 +24,7 @@
 		<!-- 바로가기 끝 -->
 		<!-- 해더 시작 -->
 		<header class="header fix">
-			<h1 class="desc"><a href="/">main</a> / admin</h1>
+			<h1 class="desc"><a href="/">main</a> / <%if(isAdmin){%><a href="/admin/logOut">logout</a><%}else{%><span onclick="showAdmin();" style="cursor: pointer;">admin</span><%}%></h1>
 		</header>
 		<!-- 해더 끝 -->
 		<!-- 왼쪽 프로필 및 메뉴 -->
@@ -34,6 +36,7 @@
 				안녕하세요.<br>
 				여행과 개발을 사랑하는<br>
 				권동준입니다.
+				<%if(isAdmin){%><br><input type="button" value="게시판 등록" onclick="location.href='/board/insert'"><%}%>
 			</article>
 			<nav>
 				<ul>
@@ -51,6 +54,10 @@
 			<%-body%>
 		</section>
 		<!-- 본문 내용 끝 -->
+	</div>
+	<!-- 관리자 로그인(display 안쓸라했는데..ㅠㅠ) -->
+	<div id="adminView" style="display:none;">
+		<input type="password" id="adminPw" placeholder="비밀번호" />
 	</div>
 </body>
 </html>

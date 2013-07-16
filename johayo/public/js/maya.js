@@ -1,4 +1,4 @@
-function index($scope){
+function main($scope){
 	
 }
 
@@ -6,14 +6,14 @@ function index($scope){
 /* 게시판 정보 */
 function board($scope){
 	/* top게시판 목록 열기 닫기 */
-	$scope.display == 'hidden';
+	$scope.topDisplay = 'hidden';
 	$scope.openColse = function(){
-		if($scope.display =='hidden'){
+		if($scope.topDisplay =='hidden'){
 			$scope.oc = '닫기';
-			$scope.display='';			
+			$scope.topDisplay='';			
 		}else{
 			$scope.oc = '열기';
-			$scope.display='hidden';
+			$scope.topDisplay='hidden';
 		}
 	}
 	
@@ -110,9 +110,9 @@ function commentList(index, data){
 	var html = '';
 	
 	for(var i=0;i<data.boardInfo.comment.length;i++){
-		html = html + '<tr><td><span class="commentTitle">'+data.boardInfo.comment[i].id+'</span> <span style="font-size: 11px;">('+data.boardInfo.comment[i].date.substring(0,4)+'/'+data.boardInfo.comment[i].date.substring(4,6)+'/'+data.boardInfo.comment[i].date.substring(6,8)+' '+data.boardInfo.comment[i].date.substring(8,10)+':'+data.boardInfo.comment[i].date.substring(10,12)+')</span>';
+		html = html + '<tr><td colspan="3"><span class="commentTitle">'+data.boardInfo.comment[i].id+'</span> <span style="font-size: 11px;">('+data.boardInfo.comment[i].date.substring(0,4)+'/'+data.boardInfo.comment[i].date.substring(4,6)+'/'+data.boardInfo.comment[i].date.substring(6,8)+' '+data.boardInfo.comment[i].date.substring(8,10)+':'+data.boardInfo.comment[i].date.substring(10,12)+')</span>';
 		html = html + '<span style="cursor: pointer;" onclick="showDelete(\''+index+'\', \''+data.boardInfo._id+'\', \''+data.boardInfo.comment[i].id+'\', \''+data.boardInfo.comment[i].date+'\', event)"> x </span></td></tr>';
-		html = html + '<tr><td class="commentContent"><pre>'+data.boardInfo.comment[i].content+'</pre></td></tr>';
+		html = html + '<tr><td colspan="3" class="commentContent"><pre>'+data.boardInfo.comment[i].content+'</pre></td></tr>';
 	}
 	
 	$("#comment"+index).html(html);
@@ -222,4 +222,66 @@ function showDelete(index, boardId, id, commentDate, e){
 /* 비밀번호 묻는창 닫기 */
 function closeMemo(){
 	$("#comDeleteBox").remove();
+}
+
+function showAdmin(){
+	var height = 140;
+    var width = 170;
+
+    $('#adminView').dialog({
+        title: "관리자 로그인",
+        autoOpen: true,
+        height: height,
+        width: width,
+        position:[,],
+        modal: true,
+        closeOnEscape:true,
+        resizable: false,
+        autoResize: true,
+        overlay: {
+            opacity: 0.5,
+            background: "black"
+        },
+        open: function(event, ui) {
+            //폼이 오픈될때 로직을 넣어주세요.
+            //alert('open');
+        },
+        close: function(event, ui) {
+            //폼이 종료될때 로직을 넣어주세요.
+            //alert('close');
+        },
+		buttons: {
+			'로그인' : function(){
+				if($("#adminPw").val() == ''){
+					alert("관리자 비밀번호를 입력해주세요.");
+					$("#adminPw").focus();
+					return;
+				}
+				$.ajax({
+					data : "adminPw="+$("#adminPw").val(),
+					type : "POST",
+					async : false,
+					url : "/admin/login",
+					success : function(data) {
+						var data = eval('('+data+')');
+						if("" == data.err){
+							location.href = window.location.pathname;
+							return;
+						}else{
+							alert(data.err);
+						}
+						return;
+					},
+					error : function() {
+						alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+						return;
+					}
+				});
+			},
+			'닫기': function() {
+                $(this).dialog('close');
+			}
+		}
+    });
+
 }

@@ -6,36 +6,42 @@
 /* main controller */
 var main = require('../routes/main.js');
 var board = require('../routes/board.js');
-var db = require('mongojs').connect('14.63.220.231/maya', ['menus']);
+var admin = require('../routes/admin.js');
+var pro = require("../util/property.js");
+var err = require("../routes/err.js");
+var db = require('mongojs').connect(pro.dbInfo(), ['menus']);
 
 /**
  * url을 분석해서 넣어준다.
  */
-var renderSeed = function(path){
-	var paths = path.split('/');
-	this.path1 = paths[1];
+var renderSeed = function(req){
+	var paths = req.path.split('/');
+	this.path1 = (paths[1] == null || paths[1] == '') ? 'main' : paths[1];
 	this.path2 = paths[2];
 	this.path3 = paths[3];
+	this.isAdmin = (req.session.admin == null || req.session.admin == '') ? false : true;
 }
 
 /* url을 통해 controller을 찾아준다. */
 exports.findRoutes = function(req, res, next){
-	var param = new renderSeed(req.path);
+	var param = new renderSeed(req);
 	
-	/* ajax 호출은 menu정보기 필요 없다. */
-	if(req.path.indexOf('ajax') > 0){
-		if(param.path1 == 'board')
+	/* ajax, admin 호출은 menu정보기 필요 없다. */
+	if(req.path.indexOf('ajax') > 0 || req.path.indexOf('admin') > 0){
+		if('board' == param.path1)
 			board.boardAjaxRoute(req, res, param);
+		else if('admin' == param.path1)
+			admin.adminRoute(req, res, param);
 		else
-			res.render('err', {title : '찾는 페이지가 없습니다', err : '찾는 페이지가 없습니다.'});
+			err.error(res, '찾는 페이지가 없습니다.');
 	}else{
 		/* 메뉴정보 리턴 */
 		db.menus.find({use_yn : 'Y'}).sort({rank : 1}, function (error, menuList) {
 			if(error){
 				console.log(error);
-				res.render('err', {title : '오류발생.', err : error});
+				err.error(res, error);
 			}else{
-				if(param.path1 == ''){
+				if('main' == param.path1){
 					param['title'] = 'main';
 				}else{
 					/* 클릭된 메뉴 찾기*/
@@ -52,12 +58,12 @@ exports.findRoutes = function(req, res, next){
 				/* 메뉴 데이터 넣기 */
 				param['menus'] = menuList;
 				
-				if(param.path1 == '')
+				if('main' == param.path1)
 					main.mainRoute(req, res, param);
-				else if(param.path1 == 'board')
+				else if('board' == param.path1)
 					board.boardRoute(req, res, param);
 				else 
-					res.render('err', {title : '찾는 페이지가 없습니다', err : '찾는 페이지가 없습니다.'});
+					err.error(res, '찾는 페이지가 없습니다.');
 			}
 		});
 	}

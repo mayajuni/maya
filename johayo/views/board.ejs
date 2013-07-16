@@ -1,7 +1,7 @@
 <% layout('layout') -%>
 <div class="board" >
 	<h4><div class="upper"><%=title%> 목록</div><div class="oc" ng-click="openColse();" ng-init="oc='열기'">{{oc}}</div></h4>
-	<div ng-class="display" >
+	<div ng-class="topDisplay">
 		<table summary="<%=title%> 목록">
 			<caption><%=title%> 목록</caption>
 			<colgroup>
@@ -57,11 +57,6 @@
 				<tr>
 					<td colspan="2">
 						<span class="comment" onclick="commentOpenColse(<%=i%>);" ><b>comment</b></span>
-						<%if(boardList[i].comment.length > 0){%>
-							<span style="color: #FF3636;">
-								(<b><%=boardList[i].comment.length%></b>)
-							</span>
-						<%}%>
 					</td>
 				</tr>
 				<tr id='commnetDisplay<%=i%>' class="hidden">
