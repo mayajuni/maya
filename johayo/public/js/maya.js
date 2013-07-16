@@ -224,6 +224,7 @@ function closeMemo(){
 	$("#comDeleteBox").remove();
 }
 
+/* 관리자 화면 */
 function showAdmin(){
 	var height = 140;
     var width = 170;
@@ -252,36 +253,47 @@ function showAdmin(){
         },
 		buttons: {
 			'로그인' : function(){
-				if($("#adminPw").val() == ''){
-					alert("관리자 비밀번호를 입력해주세요.");
-					$("#adminPw").focus();
-					return;
-				}
-				$.ajax({
-					data : "adminPw="+$("#adminPw").val(),
-					type : "POST",
-					async : false,
-					url : "/admin/login",
-					success : function(data) {
-						var data = eval('('+data+')');
-						if("" == data.err){
-							location.href = window.location.pathname;
-							return;
-						}else{
-							alert(data.err);
-						}
-						return;
-					},
-					error : function() {
-						alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
-						return;
-					}
-				});
+				login();
 			},
 			'닫기': function() {
                 $(this).dialog('close');
 			}
 		}
     });
+}
 
+/* 관리자 화면 비밀번호 text에서 enter 눌렀을때 */
+function adminKey(){
+	var key = event.keyCode;
+	if(key == '13')
+		login();
+}
+
+/* 로그인 */
+function login(){
+	if($("#adminPw").val() == ''){
+		alert("관리자 비밀번호를 입력해주세요.");
+		$("#adminPw").focus();
+		return;
+	}
+	$.ajax({
+		data : "adminPw="+$("#adminPw").val(),
+		type : "POST",
+		async : false,
+		url : "/admin/login",
+		success : function(data) {
+			var data = eval('('+data+')');
+			if("" == data.err){
+				location.href = window.location.pathname;
+				return;
+			}else{
+				alert(data.err);
+			}
+			return;
+		},
+		error : function() {
+			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+			return;
+		}
+	});
 }
