@@ -1,108 +1,96 @@
-<!DOCTYPE html>
-<html lang="ko" ng-app>
-<head>
-	 <meta charset="UTF-8" />
-	 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	 <meta name="Author" content="권동준" />
-	 <link rel="stylesheet" href="/css/layout.css" />
-	 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	 <script src="/js/maya.js"></script>
-	 <!--[if lt IE 9]>
-		<script src="/js/html5.js"></script>
-	 <![endif]-->
-</head> 
-<body>
 <br>
-	<div class='boardDetail' ng-controller="board">
-		<table summary="<%=boardInfo.title%>" style="margin-top:10px; margin-bottom:10px;">
-			<caption><%=boardInfo.title%></caption>
-			<colgroup>
-				<col width="70%"/>
-				<col width="30%"/>
-			</colgroup>
-			<thead>
-				<tr>
-					<td class="title">
-						<%=boardInfo.title%>
-					</td>
-					<td class="date">
-						<%=boardInfo.date.substring(0,4)+"/"+boardInfo.date.substring(4,6)+"/"+boardInfo.date.substring(6,8)+" "+boardInfo.date.substring(8,10)+":"+boardInfo.date.substring(10,12)%>
-					</td>
-				</tr>
-			</thead>
-			<tfoot id='tfoot'>
-				<tr>
-					<td colspan="2">
-					<span class="comment" ng-click="commentOpenColse('');" ng-init="commentOc='comment'"><b>{{commentOc}}</b></span></td>
-					<td>
-				</tr>
-				<tr id='commnetDisplay' class="hidden">
-					<td colspan="2">
-						<form>
-							<table summary="<%=boardInfo.title%> 댓글" class="commentTable">
-								<caption><%=boardInfo.title%> 댓글</caption>
-								<colgroup>
-									<col width="79%"/>
-									<col width="14%"/>
-									<col width="7%"/>
-								</colgroup>
-								<tfoot style="board: 0px;">
+<div class='boardDetail'>
+	<table summary="<%=boardInfo.title%>" style="margin-top:10px; margin-bottom:10px;">
+		<caption><%=boardInfo.title%></caption>
+		<colgroup>
+			<col width="70%"/>
+			<col width="30%"/>
+		</colgroup>
+		<thead>
+			<tr>
+				<td class="title">
+					<%=boardInfo.title%>
+				</td>
+				<td class="date">
+					<%=boardInfo.date.substring(0,4)+"/"+boardInfo.date.substring(4,6)+"/"+boardInfo.date.substring(6,8)+" "+boardInfo.date.substring(8,10)+":"+boardInfo.date.substring(10,12)%>
+				</td>
+			</tr>
+		</thead>
+		<tfoot id='tfoot'>
+			<tr>
+				<td colspan="2">
+					<span class="comment" onclick="commentOpenColse('');"><b>comment</b></span>
+					<%if(boardInfo.comment.length > 0){%>
+						<span style="color: #FF3636;">
+							(<b><%=boardInfo.comment.length%></b>)
+						</span>
+					<%}%>
+				</td>
+			</tr>
+			<tr id='commnetDisplay' class="hidden">
+				<td colspan="2">
+					<form action="#">
+						<table summary="<%=boardInfo.title%> 댓글" class="commentTable">
+							<caption><%=boardInfo.title%> 댓글</caption>
+							<colgroup>
+								<col width="79%"/>
+								<col width="14%"/>
+								<col width="7%"/>
+							</colgroup>
+							<tfoot style="board: 0px;">
+								<tr>
+									<td rowspan="2" style="text-align: right; padding-right: 5px;">
+										<textarea id="content" style="width:460px; height:40px; padding-left: 5px; padding-top: 5px; border-radius:5px; border-color: rgb(138,131,126);" placeholder='내용' required ></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div>
+											<input type="text" size="12" id="id" placeholder='아이디' required >
+										</div>
+										<div style="padding-top: 6px;">
+											<input type="password" size="12" id="password" placeholder='비밀번호' required >
+										</div>
+									</td>
+									<td>
+										<input type="submit" value="등록" style="width:40px; height:40px;" onclick="insertComment('', '<%=boardInfo._id%>');" >
+									</td>
+								</tr>
+							</tfoot>
+							<tbody id="comment">
+							<%if(boardInfo.comment.length > 0){%>
+								<%
+								for(var j=0;j<boardInfo.comment.length;j++){
+									var date = String(boardInfo.comment[j].date)
+								%>
 									<tr>
-										<td rowspan="2" style="text-align: right; padding-right: 5px;">
-											<textarea id="content>" style="width:460px; height:40px; padding-left: 5px; padding-top: 5px; border-radius:5px; border-color: rgb(138,131,126);" placeholder='내용' required ></textarea>
+										<td colspan="3">
+											<span class="commentTitle"><%=boardInfo.comment[j].id%></span>
+											<span style="font-size: 11px;">(<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>)</span>
+											<span style="cursor: pointer;" onclick="showDelete('', '<%=boardInfo._id%>', '<%=boardInfo.comment[j].id%>', '<%=boardInfo.comment[j].date%>', event)">
+												x
+											</span>
 										</td>
 									</tr>
 									<tr>
-										<td>
-											<div>
-												<input type="text" size="12" id="id>" placeholder='아이디' required >
-											</div>
-											<div style="padding-top: 6px;">
-												<input type="password" size="12" id="password>" placeholder='비밀번호' required >
-											</div>
-										</td>
-										<td>
-											<input type="submit" value="등록" style="width:40px; height:40px;" ng-click="insertComment('', '<%=boardInfo._id%>');" >
-										</td>
+										<td colspan="3" class="commentContent"><pre><%=boardInfo.comment[j].content%></pre></td>
 									</tr>
-								</tfoot>
-								<tbody id="comment">
-								<%if(boardInfo.comment.length > 0){%>
-									<%
-									for(var j=0;j<boardInfo.comment.length;j++){
-										var date = String(boardInfo.comment[j].date)
-									%>
-										<tr>
-											<td colspan="3">
-												<span class="commentTitle"><%=boardInfo.comment[j].id%></span>
-												<span style="font-size: 11px;">(<%=date.substring(0,4)+"/"+date.substring(4,6)+"/"+date.substring(6,8)+" "+date.substring(8,10)+":"+date.substring(10,12)%>)</span>
-												<span style="cursor: pointer;" onclick="showDelete('', '<%=boardInfo._id%>', '<%=boardInfo.comment[j].id%>', '<%=boardInfo.comment[j].date%>', event)">
-													x
-												</span>
-											</td>
-										</tr>
-										<tr>
-											<td colspan="3" class="commentContent"><pre><%=boardInfo.comment[j].content%></pre></td>
-										</tr>
-									<%}%>							
-								<%}%>
-								</tbody>
-							</table>
-						</form>
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr>
-					<td colspan="2">
-						<div style="margin-top:5px;margin-bottom:2px;">
-							<pre><%-boardInfo.content%></pre>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</body>
-</html>
+								<%}%>							
+							<%}%>
+							</tbody>
+						</table>
+					</form>
+				</td>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr>
+				<td colspan="2">
+					<div style="margin-top:5px;margin-bottom:2px;">
+						<pre><%-boardInfo.content%></pre>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

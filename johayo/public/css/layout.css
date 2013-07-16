@@ -66,6 +66,9 @@ a.skip:active{width:165px; height:auto;}
 .commentTitle {font-size: 13px; padding-left: 2px; font-weight: bold;}
 .commentContent {border-bottom: 1px dotted #000000; padding-left: 3px; }
 
+/* 상위 게시물 클릭 */
+.clickOk {font-weight: bold;}
+
 /* 페이징 */
 .content .paging {margin-top:5px; margin-bottom: 5px; text-align: center;color: rgb(138,131,126);}
  

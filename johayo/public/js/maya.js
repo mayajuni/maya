@@ -2,13 +2,15 @@ function index($scope){
 	
 }
 
-function board($scope, $http){
-	/* 처음에는 topList를 닫아놓은다 */
-	$scope.display='hidden';
+
+/* 게시판 정보 */
+function board($scope){
+	/* top게시판 목록 열기 닫기 */
+	$scope.display == 'hidden';
 	$scope.openColse = function(){
-		if($scope.display=='hidden'){
+		if($scope.display =='hidden'){
 			$scope.oc = '닫기';
-			$scope.display='';
+			$scope.display='';			
 		}else{
 			$scope.oc = '열기';
 			$scope.display='hidden';
@@ -16,58 +18,17 @@ function board($scope, $http){
 	}
 	
 	$scope.goDetail = function (_id, index){
-		$.ajaxSetup({cache:false}); 
+		$.ajaxSetup({cache:false});
 		$("#boardInfo").load(window.location.pathname+"/detail?_id="+_id);
 		$("span[name='aTag']").each(function(){
-			$(this).css("border-bottom", "");			
+			$(this).attr('class', '');			
 		});
-		$("#aTag"+index).css("border-bottom", "1px");
+		$("#aTag"+index).attr('class', 'clickOk');
 	}
 	
-	/* 댓글 열기 닫기 */
-	$scope.commentOpenColse = function(index){
-		if($("#commnetDisplay"+index).attr('class') == 'hidden'){
-			$("#tfoot"+index).attr('class', 'tfoot');
-			$("#commnetDisplay"+index).attr('class', '');
-		}else{
-			$("#tfoot"+index).attr('class', '');
-			$("#commnetDisplay"+index).attr('class', 'hidden');
-		}
-	}
-	
-	/* 댓글 등록 */
-	$scope.insertComment = function(index, _id){
-		if($("#content"+index).val() == ''){
-			alert("내용을 입력해주세요.");
-			$("#content"+index).focus();
-			return;
-		}
-		if($("#id"+index).val() == ''){
-			alert("아이디을 입력해주세요.");
-			$("#id"+index).focus();
-			return;
-		}
-		if($("#password"+index).val() == ''){
-			alert("비밀번호을 입력해주세요.");
-			$("#password"+index).focus();
-			return;
-		}
-		
-		$.ajax({
-			data : "_id="+_id+"&id="+$("#id"+index).val()+"&password="+$("#password"+index).val()+"&content="+$("#content"+index).val(),
-			type : "POST",
-			async : false,
-			url : "/board/ajaxCommentInsert",
-			success : function(data) {
-				var data = eval('('+data+')');
-				commentList(index, data);
-				return;
-			},
-			error : function() {
-				alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
-				return;
-			}
-		});
+	/* 게시판 페이지 이동 */
+	$scope.movePage = function (page, viewCount){
+		location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
 	}
 	
 	/* 게시판 등록 */
@@ -105,6 +66,7 @@ function board($scope, $http){
 		});
 	}
 }
+
 /* 상위 게시판 페이지 이동 ajax */
 function moveTopPage(page, viewCount){
 	$.ajax({
@@ -116,9 +78,10 @@ function moveTopPage(page, viewCount){
 			 var data = eval('('+data+')');
 			 var html = '';
 			 for(var i=0;i<data.boardList.length;i++){
-				 html = html + '<tr><td scope="row">'+data.boardList[i].title;
+				 html = html + '<tr><td scope="row"><span onclick="goDetail(\''+data.boardList[i]._id+'\', \''+i+'\');" name="aTag" id="aTag'+i+'" style="cursor: pointer;">';
+				 html = html + data.boardList[i].title+'</span>';
 				 if(data.boardList[i].comment.length > 0)
-					 html = html + ' <span style="color: red;">(<b>'+data.boardList[i].comment.length+'</b>)</span>';
+					 html = html + ' <span style="color: #FF3636;">(<b>'+data.boardList[i].comment.length+'</b>)</span>';
 				 html = html + '</td><td scope="row">'+data.boardList[i].date.substring(0,4)+'/'+data.boardList[i].date.substring(4,6)+'/'+data.boardList[i].date.substring(6,8)+'</td></tr>';
 			 }
 			 $("#boardList").html(html);
@@ -130,9 +93,15 @@ function moveTopPage(page, viewCount){
 		}
 	});
 }
-/* 게시판 페이지 이동 */
-function movePage(page, viewCount){
-	location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
+
+/* 상세 보기 */
+function goDetail(_id, index){
+	$.ajaxSetup({cache:false}); 
+	$("#boardInfo").load(window.location.pathname+"/detail?_id="+_id);
+	$("span[name='aTag']").each(function(){
+		$(this).attr('class','');			
+	});
+	$("#aTag"+index).attr('class','clickOk');
 }
 
 /* 댓글 리스트 리셋 */
@@ -149,16 +118,62 @@ function commentList(index, data){
 	$("#comment"+index).html(html);
 }
 
-/* 댓글 삭제 */
-function deleteComment(index, boardId, id, commentDate){
-	if($("#password").val() == ''){
-		alert("비밀번호를 입력해주세요.");
-		$("#password").focus();
+/* 댓글 열기 닫기 */
+function commentOpenColse(index){
+	if($("#commnetDisplay"+index).attr('class') == 'hidden'){
+		$("#tfoot"+index).attr('class', 'tfoot');
+		$("#commnetDisplay"+index).attr('class', '');
+	}else{
+		$("#tfoot"+index).attr('class', '');
+		$("#commnetDisplay"+index).attr('class', 'hidden');
+	}
+}
+
+/* 댓글 등록 */
+function insertComment(index, _id){
+	if($("#content"+index).val() == ''){
+		alert("내용을 입력해주세요.");
+		$("#content"+index).focus();
+		return;
+	}
+	if($("#id"+index).val() == ''){
+		alert("아이디을 입력해주세요.");
+		$("#id"+index).focus();
+		return;
+	}
+	if($("#password"+index).val() == ''){
+		alert("비밀번호을 입력해주세요.");
+		$("#password"+index).focus();
 		return;
 	}
 	
 	$.ajax({
-		data : "_id="+boardId+"&id="+id+"&password="+$("#password").val()+"&commentDate="+commentDate,
+		data : "_id="+_id+"&id="+$("#id"+index).val()+"&password="+$("#password"+index).val()+"&content="+$("#content"+index).val(),
+		type : "POST",
+		async : false,
+		url : "/board/ajaxCommentInsert",
+		success : function(data) {
+			var data = eval('('+data+')');
+			commentList(index, data);
+			return;
+		},
+		error : function() {
+			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+			return;
+		}
+	});
+}
+
+/* 댓글 삭제 */
+function deleteComment(index, boardId, id, commentDate){
+	if($("#delPassword").val() == ''){
+		alert("비밀번호를 입력해주세요.");
+		$("#delPassword").focus();
+		return;
+	}
+	
+	$.ajax({
+		data : "_id="+boardId+"&id="+id+"&password="+$("#delPassword").val()+"&commentDate="+commentDate,
 		type : "POST",
 		async : false,
 		url : "/board/ajaxCommentDelete",
@@ -199,7 +214,7 @@ function showDelete(index, boardId, id, commentDate, e){
 		      });
 
 	$("#comDeleteBox").html("<div>" +
-			   "<input type='password' id='password' size='10' placeholder='비밀번호'>" +
+			   "<input type='password' id='delPassword' size='10' placeholder='비밀번호'>" +
 			   '<input type="button" value="삭제" onclick="deleteComment(\''+index+'\', \''+boardId+'\', \''+id+'\', \''+commentDate+'\')">' +
 			   "<input type='button' value='취소' onclick='closeMemo()'></div>");
 }

@@ -1,7 +1,7 @@
 <% layout('layout') -%>
 <div class="board" >
 	<h4><div class="upper"><%=title%> 목록</div><div class="oc" ng-click="openColse();" ng-init="oc='열기'">{{oc}}</div></h4>
-	<div ng-class='display'>
+	<div ng-class="display" >
 		<table summary="<%=title%> 목록">
 			<caption><%=title%> 목록</caption>
 			<colgroup>
@@ -13,9 +13,9 @@
 					<% for(var i=0;i<boardList.length;i++){ %>
 						<tr>
 							<td scope="row">
-								<span ng-click="goDetail('<%=boardList[i]._id%>', '<%=i%>');" name="aTag" id="aTag<%=i%>" style="cursor: pointer;"><%=boardList[i].title%></span>
+								<span onclick="goDetail('<%=boardList[i]._id%>', '<%=i%>');" name="aTag" id="aTag<%=i%>" style="cursor: pointer;"><%=boardList[i].title%></span>
 								<%if(boardList[i].comment.length > 0){%>
-								<span style="color: red;">
+								<span style="color: #FF3636;;">
 									(<b><%=boardList[i].comment.length%></b>)
 								</span>
 								<%}%>
@@ -56,8 +56,13 @@
 			<tfoot id='tfoot<%=i%>'>
 				<tr>
 					<td colspan="2">
-					<span class="comment" ng-click="commentOpenColse(<%=i%>);" ng-init="commentOc='comment'"><b>{{commentOc}}</b></span></td>
-					<td>
+						<span class="comment" onclick="commentOpenColse(<%=i%>);" ><b>comment</b></span>
+						<%if(boardList[i].comment.length > 0){%>
+							<span style="color: #FF3636;">
+								(<b><%=boardList[i].comment.length%></b>)
+							</span>
+						<%}%>
+					</td>
 				</tr>
 				<tr id='commnetDisplay<%=i%>' class="hidden">
 					<td colspan="2">
@@ -85,7 +90,7 @@
 											</div>
 										</td>
 										<td>
-											<input type="submit" value="등록" style="width:40px; height:40px;" ng-click="insertComment('<%=i%>', '<%=boardList[i]._id%>');" >
+											<input type="submit" value="등록" style="width:40px; height:40px;" onclick="insertComment('<%=i%>', '<%=boardList[i]._id%>');" >
 										</td>
 									</tr>
 								</tfoot>
