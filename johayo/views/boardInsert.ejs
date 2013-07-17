@@ -26,7 +26,16 @@
 			<tr>
 				<td colspan="2">
 					<div style="margin-top:5px;margin-bottom:5px;">
-						<textarea name="content" id="content" placeholder='내용을 입력해주세요.' required ></textarea>
+						<textarea name="content" id="content" id="content" placeholder='내용을 입력해주세요.' required ></textarea>
+						<script>
+							var oEditors = [];
+							nhn.husky.EZCreator.createInIFrame({
+								oAppRef: oEditors,
+								elPlaceHolder: "content",
+								sSkinURI: "/smartEditorBasic2/SmartEditor2Skin.html",
+								fCreator: "createSEditor2"
+							});
+						</script>
 					</div>
 				</td>
 			</tr>

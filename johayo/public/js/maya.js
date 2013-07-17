@@ -33,6 +33,7 @@ function board($scope){
 	
 	/* 게시판 등록 */
 	$scope.insertBoard = function(){
+		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);	// 에디터의 내용이 textarea에 적용됩니다.
 		if($("#division").val() == ''){
 			alert("게시판 구분을 선택해주세요.");
 			$("#division").focus();

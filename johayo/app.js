@@ -26,6 +26,7 @@ app.all("/js/*", express.static(path.join(__dirname, 'public')));
 app.all("/css/*", express.static(path.join(__dirname, 'public')));
 app.all("/font/*", express.static(path.join(__dirname, 'public')));
 app.all("/images/*", express.static(path.join(__dirname, 'public')));
+app.all("/smartEditorBasic2/*", express.static(path.join(__dirname, 'public')));
 
 app.all("*", function(req , res, next){
 	routes.findRoutes(req, res, next);
