@@ -39,7 +39,7 @@
 				안녕하세요.<br>
 				여행과 개발을 사랑하는<br>
 				권동준입니다.
-				<%if(isAdmin){%><br><input type="button" value="게시판 등록" onclick="location.href='/board/insert'"><%}%>
+				<%if(isAdmin){%><br><input type="button" value="게시판 등록" onclick="location.href='/board/insert?title=<%=path2 == null ? '' : path2%>'"><%}%>
 			</article>
 			<nav>
 				<ul>
