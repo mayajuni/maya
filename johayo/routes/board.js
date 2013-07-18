@@ -15,8 +15,10 @@ exports.boardRoute = function(req, res, param){
 	if(("insert" == param.path2 || "update" == param.path2)){
 		if(!param['isAdmin'])
 			err.error(res, '권한이 없습니다.');
-		else
-			param["title"] = null == req.param("title") ? "게시판" : req.param("title");
+		else{
+			if(!param["title"])
+				param["title"] = "게시판";
+		}
 	}
 	
 	if("insert" == param.path2)

@@ -1,0 +1,34 @@
+<% layout('layout') -%>	
+<div class="board" >
+	<h4><div class="upper">전체게시판 목록</div></h4>
+	<div style="margin-bottom: 8px;">
+		<table summary="전체 게시판 목록">
+			<caption>전체 게시판 목록</caption>
+			<colgroup>
+				<col width="87%"/>
+				<col width="13%"/>
+			</colgroup>
+			<tbody id="boardList">
+				<%if(boardList.length > 0){%>
+					<% for(var i=0;i<boardList.length;i++){ %>
+						<tr>
+							<td scope="row">
+								<a href="/board/<%=boardList[i].division%>">[<%=boardList[i].division%>] <%=boardList[i].title%></a>
+								<%if(boardList[i].comment.length > 0){%>
+								<span style="color: #FF3636;;">
+									(<b><%=boardList[i].comment.length%></b>)
+								</span>
+								<%}%>
+							</td>
+							<td scope="row"><%=boardList[i].date.substring(0,4)+"/"+boardList[i].date.substring(4,6)+"/"+boardList[i].date.substring(6,8)%></td>
+						</tr>
+					<%}%>
+				<%}else{%>
+					<tr>
+						<td style="text-align: center;" colspan="2">등록된 게시물이 없습니다.<td>
+					</tr>
+				<%}%>
+			</tbody>
+		</table>
+	</div>
+</div>

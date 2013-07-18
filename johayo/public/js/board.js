@@ -1,10 +1,5 @@
-function main($scope){
-	
-}
-
-
 /* 게시판 정보 */
-function board($scope){
+function board($scope, $http, $location){
 	/* top게시판 목록 열기 닫기 */
 	$scope.topDisplay = 'hidden';
 	$scope.openColse = function(){
@@ -17,18 +12,13 @@ function board($scope){
 		}
 	}
 	
-	$scope.goDetail = function (_id, index){
-		$.ajaxSetup({cache:false});
-		$("#boardInfo").load(window.location.pathname+"/detail?_id="+_id);
-		$("span[name='aTag']").each(function(){
-			$(this).attr('class', '');			
-		});
-		$("#aTag"+index).attr('class', 'clickOk');
-	}
 	
 	/* 게시판 페이지 이동 */
 	$scope.movePage = function (page, viewCount){
 		location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
+	}
+	
+	&scope.deleteBoard = function (_id){
 	}
 	
 	/* 게시판 등록 */
@@ -44,7 +34,8 @@ function board($scope){
 			$("#title").focus();
 			return;
 		}
-		if($("#content").val() == ''){
+		
+		if($("#content").val() == '<br>'){
 			alert("내용을 입력해주세요.");
 			$("#content").focus();
 			return;
@@ -223,78 +214,4 @@ function showDelete(index, boardId, id, commentDate, e){
 /* 비밀번호 묻는창 닫기 */
 function closeMemo(){
 	$("#comDeleteBox").remove();
-}
-
-/* 관리자 화면 */
-function showAdmin(){
-	var height = 140;
-    var width = 170;
-
-    $('#adminView').dialog({
-        title: "관리자 로그인",
-        autoOpen: true,
-        height: height,
-        width: width,
-        position:[,],
-        modal: true,
-        closeOnEscape:true,
-        resizable: false,
-        autoResize: true,
-        overlay: {
-            opacity: 0.5,
-            background: "black"
-        },
-        open: function(event, ui) {
-            //폼이 오픈될때 로직을 넣어주세요.
-            //alert('open');
-        },
-        close: function(event, ui) {
-            //폼이 종료될때 로직을 넣어주세요.
-            //alert('close');
-        },
-		buttons: {
-			'로그인' : function(){
-				login();
-			},
-			'닫기': function() {
-                $(this).dialog('close');
-			}
-		}
-    });
-}
-
-/* 관리자 화면 비밀번호 text에서 enter 눌렀을때 */
-function adminKey(){
-	var key = event.keyCode;
-	if(key == '13')
-		login();
-}
-
-/* 로그인 */
-function login(){
-	if($("#adminPw").val() == ''){
-		alert("관리자 비밀번호를 입력해주세요.");
-		$("#adminPw").focus();
-		return;
-	}
-	$.ajax({
-		data : "adminPw="+$("#adminPw").val(),
-		type : "POST",
-		async : false,
-		url : "/admin/login",
-		success : function(data) {
-			var data = eval('('+data+')');
-			if("" == data.err){
-				location.href = window.location.pathname;
-				return;
-			}else{
-				alert(data.err);
-			}
-			return;
-		},
-		error : function() {
-			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
-			return;
-		}
-	});
 }

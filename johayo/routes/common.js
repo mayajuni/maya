@@ -67,5 +67,4 @@ exports.findRoutes = function(req, res, next){
 			}
 		});
 	}
-	
 };
