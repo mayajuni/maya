@@ -32,6 +32,8 @@ exports.findRoutes = function(req, res, next){
 			board.boardAjaxRoute(req, res, param);
 		else if('admin' == param.path1)
 			admin.adminRoute(req, res, param);
+		else if('main' == param.path1)
+			main.ajaxGeustBookInsert(req, res, param);
 		else
 			err.error(res, '찾는 페이지가 없습니다.');
 	}else{

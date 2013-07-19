@@ -18,7 +18,8 @@ function board($scope, $http, $location){
 		location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
 	}
 	
-	&scope.deleteBoard = function (_id){
+	$scope.deleteBoard = function (_id){
+		return;
 	}
 	
 	/* 게시판 등록 */

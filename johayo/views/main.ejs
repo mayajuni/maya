@@ -32,3 +32,49 @@
 		</table>
 	</div>
 </div>
+<br>
+<div class="board">
+	<h4><div class="upper">한줄 방명록</div></h4>
+	<div style="margin-bottom: 8px;">
+		<form>
+			<table summary="한줄 방명록 목록">
+				<caption>한줄 방명록 목록</caption>
+				<colgroup>
+					<col width="60%"/>
+					<col width="40%"/>
+				</colgroup>
+				<thead>
+					<tr>
+						<td>
+							<input type="text" id="content" placeholder='방명록 내용' required size="68" /> 
+						</td>
+						<td style="text-align: right; padding-right: 5px;">
+							<input type="text" id="id" placeholder='아이디' required size="10"/>
+							<input type="password" id="password" placeholder='비밀번호' required size="10" />
+							<input type="submit" onclick="insertGeustBook();" value="등록" />
+						</td>
+					</tr>
+				</thead>
+				<tbody id="guestBookList">
+					<%if(guestBookList.length > 0){%>
+						<% for(var i=0;i<guestBookList.length;i++){ %>
+							<tr>
+								<td scope="row">
+									
+								</td>
+								<td scope="row">
+									<%=guestBookList[i].date.substring(0,4)+"/"+guestBookList[i].date.substring(4,6)+"/"+guestBookList[i].date.substring(6,8)%>
+								</td>
+							</tr>
+						<%}%>
+					<%}else{%>
+						<tr>
+							<td style="text-align: center;" colspan="2">등록된 방명록 없습니다.<td>
+						</tr>
+					<%}%>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<div class="paging" id="paging"><%-paging%></div>
+<div>
