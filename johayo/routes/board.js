@@ -125,8 +125,8 @@ function boardDetail(req, res, param){
  * @returns
  */
 function boardInsert(req, res, param){
-	if(req.parma("title"))
-		parma["title"] = req.parma("title"); 
+	if(req.param("title"))
+		parma["title"] = req.param("title"); 
 	res.render("boardInsert", param);
 }
 
