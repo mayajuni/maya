@@ -14,7 +14,7 @@
 						<option value="">::선택::</option>
 						<% for(var i=0;i<menus.length;i++){ %>
 							<%if(menus[i].url.indexOf('board')> 0){%>
-								<option value="<%=menus[i].url.split('/')[2]%>" <%if(menus[i].url.split('/')[2] == title){%>selected<%}%> ><%=menus[i].name%></option>
+								<option value="<%=menus[i].url.split('/')[2]%>" <%if(menus[i].url.split('/')[2] == flag){%>selected<%}%> ><%=menus[i].name%></option>
 							<%}%>
 						<%}%>
 					</select>
