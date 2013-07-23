@@ -64,6 +64,8 @@ exports.findRoutes = function(req, res, next){
 					main.mainRoute(req, res, param);
 				else if('board' == param.path1)
 					board.boardRoute(req, res, param);
+				else if('profile' == param.path1)
+					res.render("profile", param);
 				else 
 					err.error(res, '찾는 페이지가 없습니다.');
 			}

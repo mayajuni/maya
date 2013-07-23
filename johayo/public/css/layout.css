@@ -37,19 +37,20 @@ a.skip:active{width:165px; height:auto;}
 /* content */
 .content {float:right; width:655px; margin-top:15px; margin-left: 5px;}
 /* 게시판  */
-.content .board {margin-top:1px; border:1px solid #000000; border-radius:5px; }
+.content .box {margin-top:1px; border:1px solid #000000; border-radius:5px; }
 
-.content .board h4 {border-collapse: collapse; text-align: left; font-family: 돋움; color: rgb(138,131,126); margin-top: 7px; margin-bottom: 5px;}
-.content .board h4 .upper {font-size: 13px; font-weight: bold; margin-left: 15px;}
-.content .board h4 .oc {position:absolute; top:101px; right:20px; font-size: 11px; cursor: pointer; text-align: right;}
+.content .box h4 {border-collapse: collapse; text-align: left; font-family: 돋움; color: rgb(138,131,126); margin-top: 7px; margin-bottom: 5px;}
+.content .box h4 .upper {font-size: 13px; font-weight: bold; margin-left: 15px;}
+.content .box h4 .oc {position:absolute; top:101px; right:20px; font-size: 11px; cursor: pointer; text-align: right;}
 
-.content .board table {width: 610px;font-size: 12px;table-layout: fixed; margin:0 auto;}
-.content .board table tr {border-bottom: 1px solid #D5D5D5; height: 22px;}
-.content .board table td {padding-left: 5px; text-align: left; color: rgb(138,131,126);}
+.content .box table {width: 610px;font-size: 12px;table-layout: fixed; margin:0 auto;}
+.content .box table tr {border-bottom: 1px solid #D5D5D5; height: 22px;}
+.content .box table td {padding-left: 5px; text-align: left; color: rgb(138,131,126);}
+.content .box table th {text-align: center; background-color: #EAEAEA;}
 
-.content .board textarea {width:590px; height:500px; padding-left: 5px; padding-top: 5px; border-radius:5px; border-color: rgb(138,131,126);}
-.content .board .text {width:495px; padding-left: 5px; border-radius:5px; border-color: #D5D5D5;}
-.content .board table tr {border-bottom: 1px solid #D5D5D5; height: 22px;}
+.content .box textarea {width:590px; height:500px; padding-left: 5px; padding-top: 5px; border-radius:5px; border-color: rgb(138,131,126);}
+.content .box .text {width:495px; padding-left: 5px; border-radius:5px; border-color: #D5D5D5;}
+.content .box table tr {border-bottom: 1px solid #D5D5D5; height: 22px;}
 
 .content .boardDetail {margin-top:1px; border:1px solid #000000; border-radius:5px; }
 .content .boardDetail table {width: 610px; font-size: 12px; table-layout: fixed; margin:0 auto;}
