@@ -73,7 +73,8 @@ function board($scope, $http, $location){
 				}
 					
 				alert("등록되셨습니다.");
-				location.href="/board/"+$("#division").val();
+				location.reload();
+				//location.href="/board/"+$("#division").val();
 				return;
 			},
 			error : function() {
