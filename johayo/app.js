@@ -18,6 +18,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.logger());
 app.use(express.cookieParser());
+/* 세션 사용을 위한 것이다 뒤에 pro.session이 부분은 나만 알아야되기때문에 이렇게 변경 */
 app.use(express.cookieSession({secret: pro.sessionSecret()}));
 app.use(app.router);
 app.engine('ejs', engine);
