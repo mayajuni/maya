@@ -11,15 +11,34 @@ function board($scope, $http, $location){
 			$scope.topDisplay='hidden';
 		}
 	}
-	
-	
+		
 	/* 게시판 페이지 이동 */
 	$scope.movePage = function (page, viewCount){
 		location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
 	}
 	
+	/* 게시판 삭제 */
 	$scope.deleteBoard = function (_id){
-		return;
+		$.ajax({
+			data : "_id="+_id,
+			type : "POST",
+			async : false,
+			url : "/board/ajaxDelete",
+			success : function(data) {
+				if(data){
+					alert(data);
+					return;
+				}
+					
+				alert("삭제되셨습니다.");
+				location.reload();
+				return;
+			},
+			error : function() {
+				alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+				return;
+			}
+		});
 	}
 	
 	/* 게시판 등록 */
@@ -47,10 +66,15 @@ function board($scope, $http, $location){
 			type : "POST",
 			async : false,
 			url : "/board/ajaxInsert",
-			success : function() {
-				 alert("등록되셨습니다.");
-				 location.href="/board/"+$("#division").val();
-				 return;
+			success : function(data) {
+				if(data){
+					alert(data);
+					return;
+				}
+					
+				alert("등록되셨습니다.");
+				location.href="/board/"+$("#division").val();
+				return;
 			},
 			error : function() {
 				alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");

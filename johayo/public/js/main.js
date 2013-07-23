@@ -53,16 +53,30 @@ function insertGeustBook(){
 		async : false,
 		url : "/main/ajaxGeustBookInsert",
 		success : function(data) {
-			var data = eval('('+data+')');
-			var html = '';
-			
-			for(var i=0;i<data.boardInfo.comment.length;i++){
-				html = html + '<tr><td colspan="3"><span class="commentTitle">'+data.boardInfo.comment[i].id+'</span> <span style="font-size: 11px;">('+data.boardInfo.comment[i].date.substring(0,4)+'/'+data.boardInfo.comment[i].date.substring(4,6)+'/'+data.boardInfo.comment[i].date.substring(6,8)+' '+data.boardInfo.comment[i].date.substring(8,10)+':'+data.boardInfo.comment[i].date.substring(10,12)+')</span>';
-				html = html + '<span style="cursor: pointer;" onclick="showDelete(\''+index+'\', \''+data.boardInfo._id+'\', \''+data.boardInfo.comment[i].id+'\', \''+data.boardInfo.comment[i].date+'\', event)"> x </span></td></tr>';
-				html = html + '<tr><td colspan="3" class="commentContent"><pre>'+data.boardInfo.comment[i].content+'</pre></td></tr>';
-			}
-			
-			$("#comment"+index).html(html);
+			location.reload();
+		},
+		error : function() {
+			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+			return;
+		}
+	});
+}
+
+/* 댓글 삭제 */
+function deleteComment(_id){
+	if($("#delPassword").val() == ''){
+		alert("비밀번호를 입력해주세요.");
+		$("#delPassword").focus();
+		return;
+	}
+	
+	$.ajax({
+		data : "_id="+_id+"&password="+$("#delPassword").val(),
+		type : "POST",
+		async : false,
+		url : "/main/ajaxGeustBookDelete",
+		success : function() {
+			location.reload();
 			return;
 		},
 		error : function() {
@@ -70,4 +84,39 @@ function insertGeustBook(){
 			return;
 		}
 	});
+	return;
+}
+
+/* 비밀번호 묻는창 오픈 */
+function showDelete(_id, e){
+	if(!e) e = window.Event;
+	
+	var x = e.clientX + (document.documentElement.scrollLeft?document.documentElement.scrollLeft:document.body.scrollLeft);
+	var y = e.clientY + (document.documentElement.scrollTop?document.documentElement.scrollTop:document.body.scrollTop);
+	
+	$("#comDeleteBox").remove();
+	
+	$('body').append('<div id="comDeleteBox"></div>');
+	
+	$("#comDeleteBox").css(
+		      {'border-style':'solid',
+		       'background':'white',
+		       position:'absolute',
+		       'border-width':'1px 1px 1px 1px',
+		       'top': (y)+'px',
+		       'left': (x+17)+'px',
+		       'z-index':'10',
+		       'border-radius':'5px',
+		       'text-align' : 'center'
+		      });
+
+	$("#comDeleteBox").html("<div>" +
+			   "<input type='password' id='delPassword' size='10' placeholder='비밀번호'>" +
+			   '<input type="button" value="삭제" onclick="deleteComment(\''+_id+'\')">' +
+			   "<input type='button' value='취소' onclick='closeMemo()'></div>");
+}
+
+/* 비밀번호 묻는창 닫기 */
+function closeMemo(){
+	$("#comDeleteBox").remove();
 }

@@ -5,6 +5,7 @@
  */
 var pro = require("../util/property.js");
 var paging = require("../util/paging.js");
+var dateUtil = require("../util/dateUtil.js");
 var err = require("../routes/err.js");
 var db = require('mongojs').connect(pro.dbInfo(), ['boards']);
 
@@ -39,12 +40,23 @@ exports.boardRoute = function(req, res, param){
  */
 exports.boardAjaxRoute = function(req, res, param){
 	res.set("Content-Type", "text/html");
+	if("ajaxInsert" == param.path2 || "ajaxDelete" == param.path2){
+		if(!param['isAdmin'])
+			res.send('권한이 없습니다.');
+	}
+	
+	/* 게시판 목록(상위) 가져오기페이징 포함 */
 	if(req.path.indexOf("ajaxTopList") >=0)
 		ajaxTopList(req, res, param);
+	/* 게시판 등록 */
 	else if(req.path.indexOf("ajaxInsert") >=0)
 		ajaxInsert(req, res, param);
+	else if(req.path.indexOf("ajaxDelete") >=0)
+		ajaxDelete(req, res, param);
+	/* 댓글 등록 */
 	else if(req.path.indexOf("ajaxCommentInsert") >=0)
 		ajaxCommentInsert(req, res, param);
+	/* 댓글 삭제 */
 	else if(req.path.indexOf("ajaxCommentDelete") >=0)
 		ajaxCommentDelete(req, res, param);
 }
@@ -171,7 +183,25 @@ function ajaxInsert(req, res, param){
 	var division = decodeURIComponent(req.param("division"));
 	var title = decodeURIComponent(req.param("title"));
 	var content = decodeURIComponent(req.param("content"));
-	db.boards.insert({"division":division, "title":title, "content":content, "date": nowDates(), "comment": []}, function(err){
+	db.boards.insert({"division":division, "title":title, "content":content, "date": dateUtil.nowDates(), "comment": []}, function(err){
+		if(err)
+			console.log(err);
+	});
+	res.send("");
+}
+
+/**
+ * 게시판 삭제
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
+function ajaxDelete(req, res, param){
+	var _id = decodeURIComponent(req.param("_id"));
+	
+	db.boards.remove({_id: db.ObjectId(_id)}, function(err){
 		if(err)
 			console.log(err);
 	});
@@ -194,7 +224,7 @@ function ajaxCommentInsert(req, res, param){
 	
 	db.boards.findAndModify({
 		query: { _id: db.ObjectId(_id) },
-    	update: { $push : {comment : {id : id, password : password, content : content, date : nowDates()}} },
+    	update: { $push : {comment : {id : id, password : password, content : content, date : dateUtil.nowDates()}} },
     	new: true
     	},
     	function(err, data){
@@ -206,13 +236,19 @@ function ajaxCommentInsert(req, res, param){
 	});
 }
 
+/**
+ * 댓글 삭제 후 댓글 목록을 가져다 준다.
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
 function ajaxCommentDelete(req, res, param){
 	var _id = decodeURIComponent(req.param("_id"));
 	var id = decodeURIComponent(req.param("id"));
 	var password = decodeURIComponent(req.param("password"));
 	var date = decodeURIComponent(req.param("commentDate"));
-	
-	console.log(_id + "/" + id + "/" + password  + "/" + date);
 	
 	db.boards.findAndModify({
 		query: { _id: db.ObjectId(_id) },
@@ -226,33 +262,4 @@ function ajaxCommentDelete(req, res, param){
 			param['boardInfo'] = data;
 			res.send(param);
 	});
-}
-
-/**
- * 현재 날짜 가져오기. 유틸로 해서 뺼까 고민중
- * 
- * @returns
- */
-function nowDates() {  
-	//format : yyyyMMddHHmmss
-	var ndate = new Date();
-	var nyear = ndate.getFullYear();
-	var nmonth = ndate.getMonth() + 1;
-	var nday = ndate.getDate();
-	var nhours = ndate.getHours();
-	var nminutes = ndate.getMinutes();
-	var nseconds = ndate.getSeconds();
-	if(String(nmonth).length == 1)
-		nmonth = "0" + nmonth;
-	if(String(nday).length == 1)
-		nday = "0" + nday;
-	if(String(nhours).length == 1)
-		nhours = "0" + nhours;
-	if(String(nminutes).length == 1)
-		nminutes = "0" + nminutes;
-	if(String(nseconds).length == 1)
-		nseconds = "0" + nseconds;
-	s = String(nyear) + String(nmonth) + String(nday)+String(nhours)+String(nminutes)+String(nseconds);
-
-	return s;
 }

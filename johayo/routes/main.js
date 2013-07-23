@@ -2,13 +2,37 @@
  * main
  * 작성자 : 권동준
  */
-var board = require('../routes/board.js');
 var err = require("../routes/err.js");
+var dateUtil = require("../util/dateUtil.js");
 var paging = require("../util/paging.js");
 var pro = require("../util/property.js");
 var db = require('mongojs').connect(pro.dbInfo(), ['boards', 'guestBooks']);
  
-/* main */
+/**
+ * ajax 관련 컨트롤러?
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
+exports.geustBookAjaxRoute = function(req, res, param){
+	res.set("Content-Type", "text/html");
+	/* 게시판 목록(상위) 가져오기페이징 포함 */
+	if(req.path.indexOf("ajaxGeustBookInsert") >=0)
+		ajaxGeustBookInsert(req, res, param);
+	else if(req.path.indexOf("ajaxGeustBookDelete") >=0)
+		ajaxGeustBookDelete(req, res, param);
+}	
+ 
+/**
+ * 메인
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
 exports.mainRoute = function(req, res, param){
 	var viewCount = (req.param("viewCount") == null || req.param("viewCount") == "") ? 5 :  parseInt( req.param("viewCount"), 10 );
 	var page = (req.param("page") == null || req.param("page") == "") ? 1 : parseInt( req.param("page"), 10 );
@@ -43,3 +67,39 @@ exports.mainRoute = function(req, res, param){
 		});
 	});
 };
+
+/**
+ * 방명록 삭제
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
+function ajaxGeustBookDelete(req, res, param){
+	var _id = decodeURIComponent(req.param("_id"));
+	var password = decodeURIComponent(req.param("password"));
+	
+	db.guestBooks.remove({_id : db.ObjectId(_id), password : password});
+	res.send("");
+}
+
+/**
+ * 방명록 등록
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
+function ajaxGeustBookInsert(req, res, param){
+	var id = decodeURIComponent(req.param("id"));
+	var password = decodeURIComponent(req.param("password"));
+	var content = decodeURIComponent(req.param("content"));
+	
+	db.guestBooks.insert({"id":id, "password":password, "content":content, "date": dateUtil.nowDates(), "comment": []}, function(err){
+		if(err)
+			console.log(err);
+	});
+	res.send("");
+}
