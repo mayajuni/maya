@@ -125,6 +125,7 @@ function boardDetail(req, res, param){
  * @returns
  */
 function boardInsert(req, res, param){
+	param["flag"]=req.param("title");
 	res.render("boardInsert", param);
 }
 
