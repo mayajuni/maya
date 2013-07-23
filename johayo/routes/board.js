@@ -18,7 +18,7 @@ exports.boardRoute = function(req, res, param){
 			err.error(res, '권한이 없습니다.');
 		else{
 			if(!param["title"])
-				param["title"] = "게시판";
+				param["title"] = (req.param("title") == null || req.param("title") == "") ? "게시판" :  req.param("title"));
 		}
 	}
 	
@@ -124,9 +124,7 @@ function boardDetail(req, res, param){
  * @param param
  * @returns
  */
-function boardInsert(req, res, param){
-	if(req.param("title"))
-		parma["title"] = req.param("title"); 
+function boardInsert(req, res, param){ 
 	res.render("boardInsert", param);
 }
 
