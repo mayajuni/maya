@@ -68,10 +68,10 @@ exports.listPaging = function(total, viewCount, page){
 		if(page == (i+1))
 			html = html + ' <span style="font-weight: bold;">' + (i+1)+"</span>";
 		else
-			html = html + ' <span ng-click="movePage('+(i+1)+', '+viewCount+')" style="cursor: pointer;">' + (i+1)+"</span>";
+			html = html + ' <span onclick="movePage('+(i+1)+', '+viewCount+')" style="cursor: pointer;">' + (i+1)+"</span>";
 			 
 		if(i == (count-1) && groupCount > 10)
-			html= html + ' | <span ng-click="movePage('+(i+2)+', '+viewCount+')" style="cursor: pointer;">다음 ▶</span>';		
+			html= html + ' | <span onclick="movePage('+(i+2)+', '+viewCount+')" style="cursor: pointer;">다음 ▶</span>';		
 	}
 	
 	return html;

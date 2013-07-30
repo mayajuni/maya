@@ -23,6 +23,8 @@ exports.geustBookAjaxRoute = function(req, res, param){
 		ajaxGeustBookInsert(req, res, param);
 	else if(req.path.indexOf("ajaxGeustBookDelete") >=0)
 		ajaxGeustBookDelete(req, res, param);
+	else if(req.path.indexOf("ajaxGuest") >=0 )
+		ajaxGuest(req, res, param);
 }	
  
 /**
@@ -44,13 +46,14 @@ exports.mainRoute = function(req, res, param){
 			err.error(res, err);
 		}
 		
-		param["boardList"] = boardList;
 		/* 방명록 카운트 */
 		db.guestBooks.find({}).count({}, function (err, guestBookCount) {
 			if(err){
 				console.log(err);
 				err.error(res, err);
 			}
+			param["boardList"] = boardList;
+			
 			/* 방명록 페이징 처리 */
 			param["paging"] = paging.listPaging(guestBookCount, viewCount, page);
 			
@@ -67,6 +70,40 @@ exports.mainRoute = function(req, res, param){
 		});
 	});
 };
+
+/**
+ * 방명록 삭제
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
+function ajaxGuest(req, res, param){
+	var viewCount = (req.param("viewCount") == null || req.param("viewCount") == "") ? 5 :  parseInt( req.param("viewCount"), 10 );
+	var page = (req.param("page") == null || req.param("page") == "") ? 1 : parseInt( req.param("page"), 10 );
+	
+	/* 방명록 카운트 */
+	db.guestBooks.find({}).count({}, function (err, guestBookCount) {
+		if(err){
+			console.log(err);
+			err.error(res, err);
+		}
+		/* 방명록 페이징 처리 */
+		param["paging"] = paging.listPaging(guestBookCount, viewCount, page);
+		
+		/* 방명록 내용 */
+		db.guestBooks.find({}).sort({date : -1, comment : {date : 1}}).skip(viewCount * (page - 1)).limit(viewCount, function (err, guestBook){
+			if(err){
+				console.log(err);
+				err.error(res, err);
+			}
+			
+			param["guestBookList"] = guestBook;
+			res.send(param);
+		});
+	});
+}
 
 /**
  * 방명록 삭제

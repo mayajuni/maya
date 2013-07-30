@@ -7,20 +7,21 @@ function main($scope){
 
 /* 상위 게시판 페이지 이동 ajax */
 function movePage(page, viewCount){
+
 	$.ajax({
 		data : 'page='+page+'&viewCount='+viewCount,
 		type : "POST",
 		async : false,
-		url : window.location.pathname+"/ajaxTopList",
+		url : "/main/ajaxGuest",
 		success : function(data) {
 			 var data = eval('('+data+')');
 			 var html = '';
-			 for(var i=0;i<data.boardList.length;i++){
-				 html = html + '<tr><td scope="row">' + data.boardList[i].title+'</span>';
-				 html = html + '</td><td scope="row">'+data.boardList[i].date.substring(0,4)+'/'+data.boardList[i].date.substring(4,6)+'/'+data.boardList[i].date.substring(6,8)+'</td></tr>';
+			 for(var i=0;i<data.guestBookList.length;i++){
+				 html = html + '<tr><td scope="row"><b>' + data.guestBookList[i].id+'</b><span style="cursor: pointer;" onclick="showDelete(\''+data.guestBookList[i]._id+'\', event)"> x </span><br>'+data.guestBookList[i].content;
+				 html = html + '</td><td scope="row" style="text-align: right; padding-right: 5px;">'+data.guestBookList[i].date.substring(0,4)+'/'+data.guestBookList[i].date.substring(4,6)+'/'+data.guestBookList[i].date.substring(6,8)+'</td></tr>';
 			 }
 			 $("#guestBookList").html(html);
-			 $("#paging").html(data.topPaging);
+			 $("#paging").html(data.paging);
 		},
 		error : function() {
 			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");

@@ -11,11 +11,6 @@ function board($scope, $http, $location){
 			$scope.topDisplay='hidden';
 		}
 	}
-		
-	/* 게시판 페이지 이동 */
-	$scope.movePage = function (page, viewCount){
-		location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
-	}
 	
 	/* 게시판 삭제 */
 	$scope.deleteBoard = function (_id){
@@ -83,6 +78,11 @@ function board($scope, $http, $location){
 			}
 		});
 	}
+}
+
+/* 게시판 페이지 이동 */
+function movePage(page, viewCount){
+	location.href=window.location.pathname+"?page="+page+"&viewCount="+viewCount;
 }
 
 /* 상위 게시판 페이지 이동 ajax */
