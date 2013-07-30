@@ -46,7 +46,7 @@ exports.mainRoute = function(req, res, param){
 		
 		param["boardList"] = boardList;
 		/* 방명록 카운트 */
-		db.boards.find({division: param.path2}).count({}, function (err, guestBookCount) {
+		db.guestBooks.find({}).count({}, function (err, guestBookCount) {
 			if(err){
 				console.log(err);
 				err.error(res, err);
