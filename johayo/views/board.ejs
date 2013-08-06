@@ -13,7 +13,7 @@
 					<% for(var i=0;i<boardList.length;i++){ %>
 						<tr>
 							<td scope="row">
-								<span onclick="goDetail('<%=boardList[i]._id%>', '<%=i%>');" name="aTag" id="aTag<%=i%>" style="cursor: pointer;"><%=boardList[i].title%></span>
+								<span onclick="goDetail('<%=boardList[i]._id%>','<%=topPaging.nowPage%>');" name="aTag" id="aTag<%=i%>" style="cursor: pointer;"><%=boardList[i].title%></span>
 								<%if(boardList[i].comment.length > 0){%>
 								<span style="color: #FF3636;;">
 									(<b><%=boardList[i].comment.length%></b>)
@@ -30,7 +30,7 @@
 				<%}%>
 			</tbody>
 		</table>
-		<div class="paging" id="topPaging"><%-topPaging%></div>
+		<div class="paging" id="topPaging"><%-topPaging.html%></div>
 	</div>
 </div>
 <% for(var i=0;i<boardList.length;i++){ %>

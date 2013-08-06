@@ -1,19 +1,21 @@
 /**
- * New node file
+ * url을 분석해서 넣어준다.
  */
- 
+var pageParam = function(nowPage){
+	this.nowPage = nowPage;
+}
 /** 
  * top 목록 페이징 만들기
  * total : 전체수
  * viewCout : 보여지는 row수
  * page : 현재 페이지 (1|2|3| 여기서 숫자)
  */
-exports.topListPaging = function(total, viewCount, page){	
+exports.topListPaging = function(total, viewCount, page){
 	if(viewCount == null || viewCount == '')
 		viewCount = 5;
 	if(page == null || page == '')
 		page = 1;
-		
+	
 	var groupCount = total / viewCount == 0 ? '1' : (total / viewCount);
 	var html = '';
 	var nowGroup = parseInt((page / 10), 10) + 1;
@@ -37,7 +39,9 @@ exports.topListPaging = function(total, viewCount, page){
 			html= html + ' | <span onclick="moveTopPage('+(i+2)+', '+viewCount+')" style="cursor: pointer;">다음</span>';		
 	}
 	
-	return html;
+	var paging = new pageParam(page);
+	paging["html"] = html;
+	return paging;
 }
 
 /** 

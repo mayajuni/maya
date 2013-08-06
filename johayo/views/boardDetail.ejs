@@ -16,7 +16,7 @@
 								<%if(boardList[i]._id.toHexString() == boardInfo._id.toHexString()){%>
 									<span class="clickOk">
 								<%}else{%>
-									<span onclick="goDetail('<%=boardList[i]._id%>');" style="cursor: pointer;">
+									<span onclick="goDetail('<%=boardList[i]._id%>','<%=topPaging.nowPage%>');" style="cursor: pointer;">
 								<%}%>
 									<%=boardList[i].title%>
 								</span>
@@ -36,7 +36,7 @@
 				<%}%>
 			</tbody>
 		</table>
-		<div class="paging" id="topPaging"><%-topPaging%></div>
+		<div class="paging" id="topPaging"><%-topPaging.html%></div>
 	</div>
 </div>
 <br>

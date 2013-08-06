@@ -96,14 +96,14 @@ function moveTopPage(page, viewCount){
 			 var data = eval('('+data+')');
 			 var html = '';
 			 for(var i=0;i<data.boardList.length;i++){
-				 html = html + '<tr><td scope="row"><span onclick="goDetail(\''+data.boardList[i]._id+'\', \''+i+'\');" name="aTag" id="aTag'+i+'" style="cursor: pointer;">';
+				 html = html + '<tr><td scope="row"><span onclick="goDetail(\''+data.boardList[i]._id+'\', \''+data.topPaging.nowPage+'\');" name="aTag" id="aTag'+i+'" style="cursor: pointer;">';
 				 html = html + data.boardList[i].title+'</span>';
 				 if(data.boardList[i].comment.length > 0)
 					 html = html + ' <span style="color: #FF3636;">(<b>'+data.boardList[i].comment.length+'</b>)</span>';
 				 html = html + '</td><td scope="row">'+data.boardList[i].date.substring(0,4)+'/'+data.boardList[i].date.substring(4,6)+'/'+data.boardList[i].date.substring(6,8)+'</td></tr>';
 			 }
 			 $("#boardList").html(html);
-			 $("#topPaging").html(data.topPaging);
+			 $("#topPaging").html(data.topPaging.html);
 		},
 		error : function() {
 			alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
@@ -113,12 +113,12 @@ function moveTopPage(page, viewCount){
 }
 
 /* 상세 보기 */
-function goDetail(_id){
+function goDetail(_id, nowPage){
 	var url = window.location.pathname
 	if(window.location.pathname.indexOf("detail") < 0)
 		url = url +"/detail";
 	
-	location.href=url+"?_id="+_id;
+	location.href=url+"?_id="+_id+"&page="+nowPage;
 }
 
 /* 댓글 리스트 리셋 */
