@@ -127,7 +127,7 @@ function boardDetail(req, res, param){
 				param["boardInfo"] = boardInfo;
 				param["topPaging"] = paging.topListPaging(count, viewCount, page);
 				param["boardList"] = boardList;
-				console.log(param["boardList"]);
+				
 				res.render("boardDetail",param);
 			});
 		});

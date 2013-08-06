@@ -81,11 +81,12 @@ function needMenuInfo(req, res, param){
 				/* 클릭된 메뉴 찾기*/
 				for(var i=0;i<menuList.length;i++){
 					var data = menuList[i];
+					
 					if(data.url == req.path){
 						data.click = 'Y';
 						param['title'] = data.name;
 					}
-					else if(data.url.indexOf(param.path2) > -1){
+					else if(data.url.split('/')[2] == param.path2){
 						data.click = 'Y';
 						param['title'] = data.name;
 					}
