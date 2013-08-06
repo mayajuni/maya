@@ -35,7 +35,7 @@ a.skip:active{width:165px; height:auto;}
 .left_wrap ul {margin-top:10px; background: url("../images/left_menu.jpg");}
 
 /* content */
-.content {float:right; width:655px; margin-top:15px; margin-left: 5px;}
+.content {float:right; width:655px; margin-top:15px; margin-left: 5px; padding-bottom: 20px;}
 /* 게시판  */
 .content .box {margin-top:1px; border:1px solid #000000; border-radius:5px; }
 
