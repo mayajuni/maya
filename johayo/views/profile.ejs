@@ -1,4 +1,14 @@
 <% layout('layout') -%>
+<%
+	var date = new Date();
+	var month = date.getMonth() + 1;
+	var day = date.getDate();
+	if (("" + month).length == 1)
+		month = "0" + month;
+		
+	if (("" + day).length == 1)
+		day = "0" + day;
+%>
 <div class="box" style="padding: 5px 5px 5px 5px; text-align: center;">	
 	<table summary="프로필">
 		<caption>프로필</caption>
@@ -16,14 +26,16 @@
 				<td>남자</td>
 			</tr>
 			<tr>
-				<th>별명</th>
-				<td>MaYa</td>
-				<th>취미</th>
-				<td>스노우보드, 여행, 스킨스쿠버, 개발</td>
+				<th>나이</th>
+				<td><%=Number(date.getFullYear()) +1 - 1985%>세</td>
+				<th>개발경력</th>
+				<td><%=Number(date.getFullYear()) - 2010 - ((month + day) >= 0507 ? 0 : 1) +1%>년차</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
-				<td colspan="3">mayajuni@johayo.com</td>
+				<td>mayajuni@johayo.com</td>
+				<th>취미</th>
+				<td>스노우보드, 여행, 스킨스쿠버, 개발</td>
 			</tr>
 			<tr>
 				<td colspan="4" style="color: black">
