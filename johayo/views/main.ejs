@@ -20,7 +20,7 @@
 					<% for(var i=0;i<boardList.length;i++){ %>
 						<tr>
 							<td scope="row">
-								<a href="/board/<%=boardList[i].division%>">[<%=boardList[i].division%>] <%=boardList[i].title%></a>
+								<a href="/board/<%=boardList[i].division%>/detail?_id=<%=boardList[i]._id%>">[<%=boardList[i].division%>] <%=boardList[i].title%></a>
 								<%if(boardList[i].comment.length > 0){%>
 								<span style="color: #FF3636;;">
 									(<b><%=boardList[i].comment.length%></b>)

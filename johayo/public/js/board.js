@@ -1,7 +1,7 @@
 /* 게시판 정보 */
 function board($scope, $http, $location){
 	/* top게시판 목록 열기 닫기 */
-	$scope.topDisplay = 'hidden';
+	$scope.topDisplay = '';
 	$scope.openColse = function(){
 		if($scope.topDisplay =='hidden'){
 			$scope.oc = '닫기';
@@ -113,13 +113,12 @@ function moveTopPage(page, viewCount){
 }
 
 /* 상세 보기 */
-function goDetail(_id, index){
-	$.ajaxSetup({cache:false}); 
-	$("#boardInfo").load(window.location.pathname+"/detail?_id="+_id);
-	$("span[name='aTag']").each(function(){
-		$(this).attr('class','');			
-	});
-	$("#aTag"+index).attr('class','clickOk');
+function goDetail(_id){
+	var url = window.location.pathname
+	if(window.location.pathname.indexOf("detail") < 0)
+		url = url +"/detail";
+	
+	location.href=url+"?_id="+_id;
 }
 
 /* 댓글 리스트 리셋 */

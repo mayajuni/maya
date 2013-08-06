@@ -1,6 +1,6 @@
 <% layout('layout') -%>
 <div class="box" >
-	<h4><div class="upper"><%=title%> 목록</div><div class="oc" ng-click="openColse();" ng-init="oc='열기'">{{oc}}</div></h4>
+	<h4><div class="upper"><%=title%> 목록</div><div class="oc" ng-click="openColse();" ng-init="oc='닫기'">{{oc}}</div></h4>
 	<div ng-class="topDisplay">
 		<table summary="<%=title%> 목록">
 			<caption><%=title%> 목록</caption>
@@ -33,7 +33,6 @@
 		<div class="paging" id="topPaging"><%-topPaging%></div>
 	</div>
 </div>
-<div id="boardInfo">
 <% for(var i=0;i<boardList.length;i++){ %>
 	<br>
 	<div class='boardDetail'>
@@ -135,4 +134,3 @@
 <%if(boardList.length > 0){%>
 	<div class="paging" id="paging"><%-paging%></div>
 <%}%>
-</div>

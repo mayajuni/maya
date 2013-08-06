@@ -100,19 +100,37 @@ function boardList(req, res, param){
  */
 function boardDetail(req, res, param){
 	var _id = req.param("_id");
+	var viewCount = (req.param("viewCount") == null || req.param("viewCount") == "") ? 5 :  parseInt( req.param("viewCount"), 10 );
+	var page = (req.param("page") == null || req.param("page") == "") ? 1 : parseInt( req.param("page"), 10 );
 	
 	if(null == _id || '' == _id)
 		err.error(res, '필수값 전달 안됨');
-	
-	db.boards.findOne({ _id: db.ObjectId(_id) }, function (err, data) {
+		
+	db.boards.findOne({ _id: db.ObjectId(_id) }, function (err, boardInfo) {
 		if(err){
 			console.log(err);
 			err.error(res, err);
 		}
 		
-		param["boardInfo"] = data;
-		
-		res.render("boardDetail",param);
+		db.boards.find({division: param.path2}).count({}, function (err, count) {
+			if(err){
+				console.log(err);
+				err.error(res, err);
+			}
+			
+			db.boards.find({division: param.path2}).sort({date : -1, comment : {date : 1}}).skip(viewCount * (page - 1)).limit(viewCount, function (err, boardList) {
+				if(err){
+					console.log(err);
+					err.error(res, err);
+				}
+								
+				param["boardInfo"] = boardInfo;
+				param["topPaging"] = paging.topListPaging(count, viewCount, page);
+				param["boardList"] = boardList;
+				console.log(param["boardList"]);
+				res.render("boardDetail",param);
+			});
+		});
 	});
 }
 

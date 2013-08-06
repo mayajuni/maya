@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<title>MaYa :: <%=title %></title>
+	<title>JoHaYo :: <%=title %></title>
 	<meta name="Description" content="<%=title%>" />
 	<meta name="Keywords" content="<%=title%>" />
 	<meta name="Author" content="권동준" />
@@ -29,7 +29,8 @@
 		<!-- 바로가기 끝 -->
 		<!-- 해더 시작 -->
 		<header class="header fix">
-			<h1 class="desc"><a href="/">main</a> / <%if(isAdmin){%><a href="/admin/logOut">logout</a><%}else{%><span onclick="showAdmin();" style="cursor: pointer;">admin</span><%}%></h1>
+			<h1><a href="/"><img src="/images/logo.jpg" atr="JoHaYo 로고"></a></h1>
+			<h1 class="desc"><%if(isAdmin){%><a href="/admin/logOut">logout</a><%}else{%><span onclick="showAdmin();" style="cursor: pointer;">admin</span><%}%></h1>
 		</header>
 		<!-- 해더 끝 -->
 		<!-- 왼쪽 프로필 및 메뉴 -->
