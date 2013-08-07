@@ -68,6 +68,12 @@ function notMenuInfo(req, res, param){
  * @returns
  */
 function needMenuInfo(req, res, param){
+	/* 서버에서 돌리는거랑 로컬에서 돌리는게 달라서 이렇게 처리. */
+	if(req.host == 'localhost')
+		param['layoutPath'] = '\\common/';
+	else
+		param['layoutPath'] = '//common/';
+	
 	/* 메뉴정보 리턴 */
 	db.menus.find({use_yn : 'Y'}).sort({rank : 1}, function (error, menuList) {
 		if(error){
