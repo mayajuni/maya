@@ -7,8 +7,8 @@
 var main = require('../routes/main.js');
 var board = require('../routes/board.js');
 var admin = require('../routes/admin.js');
-var pro = require("../util/property.js");
-var err = require("../routes/err.js");
+var pro = require('../util/property.js');
+var err = require('../routes/err.js');
 var db = require('mongojs').connect(pro.dbInfo(), ['menus']);
 
 /**
@@ -102,7 +102,7 @@ function needMenuInfo(req, res, param){
 			else if('board' == param.path1)
 				board.boardRoute(req, res, param);
 			else if('profile' == param.path1)
-				res.render("profile", param);
+				res.render('profile/profile', param);
 			else 
 				err.error(res, '찾는 페이지가 없습니다.');
 		}

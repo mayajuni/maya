@@ -7,7 +7,7 @@ var pro = require("../util/property.js");
 /* 관리자 라우트 */
 exports.adminRoute = function(req, res, param){
 	if("loginView" == param.path2)
-		res.render("admin", {title : "관리자 로그인"});
+		res.render("main/admin", {title : "관리자 로그인"});
 	else if("login" == param.path2)
 		login(req, res);
 	else if("logOut" == param.path2)
