@@ -13,7 +13,7 @@ var db = require('mongojs').connect(pro.dbInfo(), ['boards']);
  * 게시판
  */
 exports.boardRoute = function(req, res, param){
-	if(("insert" == param.path2 || "update" == param.path2)){
+	if(("insert" == param.path2 || "modify" == param.path2)){
 		if(!param['isAdmin'])
 			err.error(res, '권한이 없습니다.');
 		else{
@@ -24,8 +24,8 @@ exports.boardRoute = function(req, res, param){
 	
 	if("insert" == param.path2)
 		boardInsert(req, res, param);
-	else if("update" == param.path2)
-		boardUpdate(req, res, param);
+	else if("modify" == param.path2)
+		boardModify(req, res, param);
 	else if("detail" == param.path3)
 		boardDetail(req, res, param);
 	// 위에 3가지 경우 빼고는 title은 다 존재 한다. 
@@ -40,7 +40,7 @@ exports.boardRoute = function(req, res, param){
  */
 exports.boardAjaxRoute = function(req, res, param){
 	res.set("Content-Type", "text/html");
-	if("ajaxInsert" == param.path2 || "ajaxDelete" == param.path2){
+	if("ajaxInsert" == param.path2 || "ajaxDelete" == param.path2 || "ajaxModify" == param.path2){
 		if(!param['isAdmin'])
 			res.send('권한이 없습니다.');
 	}
@@ -53,6 +53,8 @@ exports.boardAjaxRoute = function(req, res, param){
 		ajaxInsert(req, res, param);
 	else if(req.path.indexOf("ajaxDelete") >=0)
 		ajaxDelete(req, res, param);
+ 	else if(req.path.indexOf("ajaxModify") >=0)
+ 		ajaxModify(req, res, param);
 	/* 댓글 등록 */
 	else if(req.path.indexOf("ajaxCommentInsert") >=0)
 		ajaxCommentInsert(req, res, param);
@@ -93,7 +95,8 @@ function boardList(req, res, param){
 }
 
 /**
- * 
+ * 게시판 상세
+ *
  * @param req
  * @param res
  * @param param
@@ -105,19 +108,20 @@ function boardDetail(req, res, param){
 	
 	if(null == _id || '' == _id)
 		err.error(res, '필수값 전달 안됨');
-		
+	
+	/* 게시판 조회 */
 	db.boards.findOne({ _id: db.ObjectId(_id) }, function (err, boardInfo) {
 		if(err){
 			console.log(err);
 			err.error(res, err);
 		}
-		
+		/* 게시판 카운트 */
 		db.boards.find({division: param.path2}).count({}, function (err, count) {
 			if(err){
 				console.log(err);
 				err.error(res, err);
 			}
-			
+			/* 게시판 리스트 */
 			db.boards.find({division: param.path2}).sort({date : -1, comment : {date : 1}}).skip(viewCount * (page - 1)).limit(viewCount, function (err, boardList) {
 				if(err){
 					console.log(err);
@@ -155,8 +159,21 @@ function boardInsert(req, res, param){
  * @param param
  * @returns
  */
-function boardUpdate(req, res, param){
-	res.render("boardUpdate", param);
+function boardModify(req, res, param){	
+	var _id = decodeURIComponent(req.param("_id"));
+	
+	if(null == _id || '' == _id)
+		err.error(res, '필수값 전달 안됨');
+	
+	/* 게시판 조회 */
+	db.boards.findOne({ _id: db.ObjectId(_id) }, function (err, boardInfo) {
+		if(err){
+			console.log(err);
+			err.error(res, err);
+		}
+		param["boardInfo"] = boardInfo;
+		res.render("boardModify", param);
+	});
 }
 
 /**
@@ -202,7 +219,27 @@ function ajaxInsert(req, res, param){
 	var division = decodeURIComponent(req.param("division"));
 	var title = decodeURIComponent(req.param("title"));
 	var content = decodeURIComponent(req.param("content"));
-	db.boards.insert({"division":division, "title":title, "content":content, "date": dateUtil.nowDates(), "comment": []}, function(err){
+	db.boards.insert({"division":division, "title":title, "content":content, "date": dateUtil.nowDates(), "comment": [], "modifyDate" : ""}, function(err){
+		if(err)
+			console.log(err);
+	});
+	res.send("");
+}
+
+/**
+ * 게시판 등록
+ * 
+ * @param req
+ * @param res
+ * @param param
+ * @returns
+ */
+function ajaxModify(req, res, param){
+	var _id = decodeURIComponent(req.param("_id"));
+	var division = decodeURIComponent(req.param("division"));
+	var title = decodeURIComponent(req.param("title"));
+	var content = decodeURIComponent(req.param("content"));
+	db.boards.update({"_id":db.ObjectId(_id)}, {$set:{"division":division, "title":title, "content":content, "modifyDate": dateUtil.nowDates()}}, function(err){
 		if(err)
 			console.log(err);
 	});

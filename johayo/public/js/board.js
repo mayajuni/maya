@@ -36,25 +36,35 @@ function board($scope, $http, $location){
 		});
 	}
 	
+	/* 게시판 수정 */
+	$scope.modifyBoard = function(){
+		checkBoard();
+		if(!confirm("수정하시겠습니까?")) return
+		$.ajax({
+			data : $("#modify").serialize().replace(/%/g,'%25'),
+			type : "POST",
+			async : false,
+			url : "/board/ajaxModify",
+			success : function(data) {
+				if(data){
+					alert(data);
+					return;
+				}
+					
+				alert("수정되셨습니다.");
+				location.href="/board/"+$("#division").val()+"/detail?_id="+$("#_id").val();
+				return;
+			},
+			error : function() {
+				alert("시스템 오류가 발생하였습니다. 잠시후 다시 시도해주세요.");
+				return;
+			}
+		});
+	}
+	
 	/* 게시판 등록 */
 	$scope.insertBoard = function(){
-		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);	// 에디터의 내용이 textarea에 적용됩니다.
-		if($("#division").val() == ''){
-			alert("게시판 구분을 선택해주세요.");
-			$("#division").focus();
-			return;
-		}
-		if($("#title").val() == ''){
-			alert("제목을 입력해주세요.");
-			$("#title").focus();
-			return;
-		}
-		
-		if($("#content").val() == '<br>'){
-			alert("내용을 입력해주세요.");
-			$("#content").focus();
-			return;
-		}
+		checkBoard();
 		
 		$.ajax({
 			data : $("#insert").serialize().replace(/%/g,'%25'),
@@ -77,6 +87,26 @@ function board($scope, $http, $location){
 				return;
 			}
 		});
+	}
+	
+	function checkBoard(){
+		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);	// 에디터의 내용이 textarea에 적용됩니다.
+		if($("#division").val() == ''){
+			alert("게시판 구분을 선택해주세요.");
+			$("#division").focus();
+			return;
+		}
+		if($("#title").val() == ''){
+			alert("제목을 입력해주세요.");
+			$("#title").focus();
+			return;
+		}
+		
+		if($("#content").val() == '<br>'){
+			alert("내용을 입력해주세요.");
+			$("#content").focus();
+			return;
+		}
 	}
 }
 

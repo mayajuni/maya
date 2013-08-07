@@ -47,8 +47,14 @@
 					<td class="title">
 						<%=boardList[i].title%>
 						<%if(isAdmin){%>
-							<span style="cursor: pointer;font-size: 11px; color: rgb(138,131,126);" ng-click="deleteBoard('<%=boardList[i]._id%>');">
-								x
+							<span style="font-size: 11px; color: rgb(138,131,126);">
+								<span style="cursor: pointer;" ng-click="deleteBoard('<%=boardList[i]._id%>');">
+									x
+								</span>
+								/
+								<a href="/board/modify?_id=<%=boardList[i]._id%>">
+									m
+								</a>
 							</span>
 						<%}%>
 					</td>

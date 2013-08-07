@@ -51,6 +51,17 @@
 			<tr>
 				<td class="title">
 					<%=boardInfo.title%>
+					<%if(isAdmin){%>
+						<span style="font-size: 11px; color: rgb(138,131,126);">
+							<span style="cursor: pointer;" ng-click="deleteBoard('<%=boardInfo._id%>');">
+								x
+							</span>
+							/
+							<a href="/board/modify?_id=<%=boardInfo._id%>">
+								m
+							</a>
+						</span>
+					<%}%>
 				</td>
 				<td class="date">
 					<%=boardInfo.date.substring(0,4)+"/"+boardInfo.date.substring(4,6)+"/"+boardInfo.date.substring(6,8)+" "+boardInfo.date.substring(8,10)+":"+boardInfo.date.substring(10,12)%>

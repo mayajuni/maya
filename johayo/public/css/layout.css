@@ -59,6 +59,10 @@ a.skip:active{width:165px; height:auto;}
 .content .boardDetail table tfoot td{padding-top: 5px;}
 .content .boardDetail table .title {font-size: 14px; font-weight: bold;}
 .content .boardDetail table .date {text-align: right; font-size: 12px;}
+.content .boardDetail A:link {color: rgb(138,131,126);}
+.content .boardDetail A:visited {color: rgb(138,131,126);}
+.content .boardDetail A:active {color: rgb(138,131,126);}
+.content .boardDetail A:hover {color: rgb(138,131,126);}
 .tfoot{background-color: #EAEAEA;}
 
 /* comment(댓글) */
