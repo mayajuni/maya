@@ -1,5 +1,6 @@
 <% layout(layoutPath+'layout') -%>
 <div class="box" >
+	<input type="hidden" name="title" id="title" value="<%=title%>">
 	<h4><div class="upper"><%=title%> 목록</div><div class="oc" ng-click="openColse();" ng-init="oc='닫기'">{{oc}}</div></h4>
 	<div ng-class="topDisplay">
 		<table summary="<%=title%> 목록">

@@ -26,7 +26,7 @@ function board($scope, $http, $location){
 				}
 					
 				alert("삭제되셨습니다.");
-				location.reload();
+				location.href="/board/"+$("#title").val();
 				return;
 			},
 			error : function() {
