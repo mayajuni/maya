@@ -4,6 +4,6 @@ nodejs로 만든 블로그입니다. 솔찍히 앤귤라js랑 j쿼리랑 썪여�
 
 웹접근성 및 웹 표준을 지킬려고 노력했습니다.
 
-기본적으로 사용하실려면 nodejs가 설치되어야 하며, express, ejs, ejs-local, mongojs 가 설치가 되어야합니다.
+기본적으로 사용하실려면 nodejs가 설치되어야 하며, express, ejs, ejs-locals, mongojs 가 설치가 되어야합니다.
 
 또한 여기 안올린 파일이 있는데 그 파일은 session 키와 DB 정보가 들어가 있어서 패스 했습니다.
